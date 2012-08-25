@@ -1,0 +1,32 @@
+{
+    "name": "ctrl-f5/ctrlAuth",
+    "description": "CtrlAuth",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "ctrl-f5",
+        "zf2",
+	"module',
+	"auth"
+    ],
+    "homepage": "http://ctrl-f5.net/",
+    "autoload": {
+        "psr-0": {
+            "Ctrl\\Module\\Auth": "src/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://packages.zendframework.com/"
+        },
+	{
+            "type": "git",
+            "url": "http://github.com/ctrl-f5/ctrllib"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": "dev-master#c34e65aca73902b311a374b2f4a0a1d4ee9bf792",
+	"ctrl-f5/ctrllib": "dev-master"
+    }
+}
