@@ -35,7 +35,13 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Ctrl\Module\Auth\Controller\Index' => 'Ctrl\Module\Auth\Controller\IndexController'
+            'Ctrl\Module\Auth\Controller\Index' => 'Ctrl\Module\Auth\Controller\IndexController',
+            'Ctrl\Module\Auth\Controller\Login' => 'Ctrl\Module\Auth\Controller\LoginController',
+        ),
+    ),
+    'domain_services' => array(
+        'invokables' => array(
+            'AuthUser' => 'Ctrl\Module\Auth\Service\UserService',
         ),
     ),
     'view_manager' => array(
@@ -45,6 +51,16 @@ return array(
         'template_path_stack' => array(
             'ctrl/auth' => __DIR__ . '/../view',
         ),
+    ),
+    'service_manager' => array(
+        'invokables' => array(
+            'Auth' => 'Ctrl\Permissions\Acl'
+        )
+    ),
+    'acl' => array(
+        'resources' => array(
+            'AuthResources' => 'Ctrl\Module\Auth\Permissions\Resources'
+        )
     ),
     'doctrine' => array(
         'driver' => array(

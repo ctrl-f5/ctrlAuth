@@ -9,8 +9,8 @@ class IndexController extends AbstractController
 {
     public function indexAction()
     {
-        $user = new \Ctrl\Module\Auth\Domain\User();
-        $user->setUsername('test');
-        $user->setPassword('tester');
+        /** @var $service \Ctrl\Module\Auth\Service\UserService */
+        $service = $this->getDomainService('AuthUser');
+        var_dump($service->getAuthenticatedUser());
     }
 }

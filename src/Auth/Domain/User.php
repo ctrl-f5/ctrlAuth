@@ -27,7 +27,7 @@ class User
 
     public function setPassword($password)
     {
-        $this->password = $password;
+        $this->password = sha1($password);
         return $this;
     }
 
@@ -45,5 +45,10 @@ class User
     public function getUsername()
     {
         return $this->username;
+    }
+
+    public function authenticate($password)
+    {
+        return sha1($password) == $this->password;
     }
 }

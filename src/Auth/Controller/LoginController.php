@@ -9,8 +9,29 @@ class LoginController extends AbstractController
 {
     public function indexAction()
     {
-        $user = new \Ctrl\Module\Auth\Domain\User();
-        $user->setUsername('test');
-        $user->setPassword('tester');
+        /** @var $service \Ctrl\Module\Auth\Service\UserService */
+        $service = $this->getDomainService('AuthUser');
+        $form = $service->getLoginForm();
+
+        $form->setAttribute('action', $this->url()->fromRoute('auth/default', array(
+            'controller' => 'login',
+            'action' => 'index',
+        )));
+
+        if ($this->getRequest()->isPost()) {
+            $form->setData($this->getRequest()->getPost());
+            if ($form->isValid()) {
+                $elems = $form->getElements();
+                $service->authenticate(
+                    $elems[$form::ELEM_USERNAME]->getValue(),
+                    $elems[$form::ELEM_PASSWORD]->getValue()
+                );
+                return $this->redirect()->toUrl('/auth/');
+            }
+        }
+
+        return new ViewModel(array(
+            'form' => $form
+        ));
     }
 }

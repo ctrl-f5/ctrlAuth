@@ -1,0 +1,9 @@
+<?php echo $this->pageTitle('Login');
+
+echo $this->ctrlForm()->createForm(
+    $form->setLabel('Please provide your credentials'),
+    array(
+        $this->ctrlButton('submit', array('value' => 'login'), 'primary')
+    )
+);
+?>
