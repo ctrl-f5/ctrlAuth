@@ -11,6 +11,5 @@ class IndexController extends AbstractController
     {
         /** @var $service \Ctrl\Module\Auth\Service\UserService */
         $service = $this->getDomainService('AuthUser');
-        var_dump($service->getAuthenticatedUser());
     }
 }

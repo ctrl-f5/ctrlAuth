@@ -13,6 +13,8 @@ use Ctrl\Form\Element\Select as SelectInput;
 
 class UserService extends \Ctrl\Service\AbstractDomainModelService
 {
+    const EVENT_ON_LOGIN = 'on.login';
+
     protected $entity = 'Ctrl\Module\Auth\Domain\User';
 
     public function getForm(User $user = null)
@@ -52,7 +54,9 @@ class UserService extends \Ctrl\Service\AbstractDomainModelService
     {
         $user = $this->getByUserName($username);
         if ($user->authenticate($password)) {
-            $this->saveAuth($user);
+            if ($this->saveAuth($user)) {
+                $this->getEventManager()->trigger(self::EVENT_ON_LOGIN, $this, array('user' => $user));
+            }
         }
     }
 
@@ -61,6 +65,7 @@ class UserService extends \Ctrl\Service\AbstractDomainModelService
         $session = new \Zend\Session\Container('ctrl_module_auth');
         $session->offsetSet('auth.authenticated', 1);
         $session->offsetSet('auth.user', $user->getId());
+        return true;
     }
 
     public function getAuthenticatedUser()

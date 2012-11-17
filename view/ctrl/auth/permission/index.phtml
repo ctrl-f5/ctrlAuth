@@ -1,0 +1,45 @@
+<?php /** @var $auth \Ctrl\Permissions\Acl */ ?>
+<?php echo $this->pageTitle('Permissions'); ?>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>name</th>
+        <th>actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($auth->getResources() as $resource): ?>
+    <tr>
+        <td><?php echo $resource; ?></td>
+        <td>
+<!--            --><?php //echo $this->ctrlButton('link', array(
+//            'url' => $this->url('ctrl_auth/id', array(
+//                'controller' => 'user',
+//                'action' => 'edit',
+//                'id' => $resource->getId(),
+//            )),
+//            'value' => 'edit',
+//        )); ?>
+<!--            --><?php //echo $this->ctrlButton('link', array(
+//            'url' => $this->url('ctrl_auth/id', array(
+//                'controller' => 'permission',
+//                'action' => 'index',
+//                'id' => $resource->getId(),
+//            )),
+//            'value' => 'permissions',
+//        ), 'info'); ?>
+<!--            --><?php //echo $this->ctrlButton('link', array(
+//            'url' => $this->url('ctrl_auth/id', array(
+//                'controller' => 'user',
+//                'action' => 'delete',
+//                'id' => $resource->getId(),
+//            )),
+//            'value' => 'delete',
+//            'confirm' => 'are you sure you want to delete this user?',
+//        ), 'danger'); ?>
+        </td>
+    </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

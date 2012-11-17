@@ -5,10 +5,14 @@ namespace Ctrl\Module\Auth;
 return array(
     'router' => array(
         'routes' => array(
-            'auth' => array(
-                'type'    => 'Literal',
+            'ctrl_auth' => array(
+                'type'    => 'Segment',
                 'options' => array(
-                    'route'    => '/auth',
+                    'route'    => '/auth[/:controller][/:action]',
+                    'constraints' => array(
+                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    ),
                     'defaults' => array(
                         '__NAMESPACE__' => 'Ctrl\Module\Auth\Controller',
                         'controller'    => 'Index',
@@ -17,17 +21,25 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
-                    'default' => array(
+                    'id' => array(
                         'type'    => 'Segment',
+                        'may_terminate' => true,
                         'options' => array(
-                            'route'    => '/[:controller[/:action]]',
+                            'route'    => '/[:id]',
                             'constraints' => array(
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            ),
-                            'defaults' => array(
+                                'id'     => '[0-9]+',
                             ),
                         ),
+                        'child_routes' => array(
+                            'query' => array(
+                                'type'    => 'Query',
+                                'may_terminate' => true,
+                            ),
+                        ),
+                    ),
+                    'query' => array(
+                        'type'    => 'Query',
+                        'may_terminate' => true,
                     ),
                 ),
             ),
@@ -37,6 +49,8 @@ return array(
         'invokables' => array(
             'Ctrl\Module\Auth\Controller\Index' => 'Ctrl\Module\Auth\Controller\IndexController',
             'Ctrl\Module\Auth\Controller\Login' => 'Ctrl\Module\Auth\Controller\LoginController',
+            'Ctrl\Module\Auth\Controller\User' => 'Ctrl\Module\Auth\Controller\UserController',
+            'Ctrl\Module\Auth\Controller\Permission' => 'Ctrl\Module\Auth\Controller\PermissionController',
         ),
     ),
     'domain_services' => array(

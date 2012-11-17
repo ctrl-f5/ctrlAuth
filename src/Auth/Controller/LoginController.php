@@ -13,7 +13,7 @@ class LoginController extends AbstractController
         $service = $this->getDomainService('AuthUser');
         $form = $service->getLoginForm();
 
-        $form->setAttribute('action', $this->url()->fromRoute('auth/default', array(
+        $form->setAttribute('action', $this->url()->fromRoute('ctrl_auth/default', array(
             'controller' => 'login',
             'action' => 'index',
         )));

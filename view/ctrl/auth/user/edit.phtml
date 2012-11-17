@@ -1,0 +1,17 @@
+<?php
+/** @var $this \Ctrl\View\PhpView */
+echo $this->pageTitle($resource->getUsername(), 'edit user');
+
+$form->setLabel('Please provide your credentials');
+echo $this->ctrlForm()->createForm(
+    $form,
+    array(
+        $this->ctrlButton('submit', array('value' => 'save'), 'primary'),
+        $this->ctrlButton('link', array(
+            'value' => 'cancel',
+            'url' => $this->url('ctrl_auth', array(
+                'controller' => 'user',
+            )),
+        )),
+    )
+);
