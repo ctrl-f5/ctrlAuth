@@ -14,16 +14,19 @@ class PermissionController extends AbstractController
         //$permissions = $service->getAll();
 
         /** @var $auth \Ctrl\Permissions\Acl */
-        $auth = $this->getServiceLocator()->get('Auth');
+        $auth = $this->getServiceLocator()->get('CtrlAuthAcl');
+        $roleService = $this->getDomainService('CtrlAuthRole');
+        $role = $roleService->getById($this->params()->fromRoute('id'));
 
         return new ViewModel(array(
-            'auth' => $auth
+            'auth' => $auth,
+            'role' => $role,
         ));
     }
 
     public function editAction()
     {
-        $userService = $this->getDomainService('AuthUser');
+        $userService = $this->getDomainService('CtrlAuthUser');
         $user = $userService->getById($this->params()->fromRoute('id'));
 
         $form = new \Ctrl\Module\Auth\Form\User\Edit();

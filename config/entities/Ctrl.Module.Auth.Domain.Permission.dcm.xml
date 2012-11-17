@@ -1,0 +1,22 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                    http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="Ctrl\Module\Auth\Domain\Permission" table="ctrl_auth_permission">
+
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
+            <sequence-generator sequence-name="autoinc" allocation-size="100" initial-value="1" />
+        </id>
+
+        <field name="isAllowed" column="isAllowed" type="boolean" default="0" />
+
+        <many-to-one field="role" target-entity="Ctrl\Module\Auth\Domain\Role" inversed-by="permissions">
+            <join-column name="role_id" referenced-column-name="id" />
+        </many-to-one>
+
+        <many-to-one field="resource" target-entity="Ctrl\Module\Auth\Domain\Resource" inversed-by="permissions">
+            <join-column name="resource_id" referenced-column-name="id" />
+        </many-to-one>
+    </entity>
+</doctrine-mapping>

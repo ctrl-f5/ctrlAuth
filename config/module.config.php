@@ -21,6 +21,17 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
+                    'permission' => array(
+                        'type'    => 'Segment',
+                        'may_terminate' => true,
+                        'options' => array(
+                            'route'    => '/[:id][/:role]',
+                            'constraints' => array(
+                                'id'     => '[0-9]+',
+                                'role'   => '[0-9]+',
+                            ),
+                        ),
+                    ),
                     'id' => array(
                         'type'    => 'Segment',
                         'may_terminate' => true,
@@ -55,7 +66,8 @@ return array(
     ),
     'domain_services' => array(
         'invokables' => array(
-            'AuthUser' => 'Ctrl\Module\Auth\Service\UserService',
+            'CtrlAuthUser' => 'Ctrl\Module\Auth\Service\UserService',
+            'CtrlAuthRole' => 'Ctrl\Module\Auth\Service\RoleService',
         ),
     ),
     'view_manager' => array(
@@ -68,7 +80,7 @@ return array(
     ),
     'service_manager' => array(
         'invokables' => array(
-            'Auth' => 'Ctrl\Permissions\Acl'
+            'CtrlAuthAcl' => 'Ctrl\Permissions\Acl'
         )
     ),
     'acl' => array(

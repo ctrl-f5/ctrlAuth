@@ -10,7 +10,7 @@ class UserController extends AbstractController
     public function indexAction()
     {
         /** @var $service \Ctrl\Module\Auth\Service\UserService */
-        $service = $this->getDomainService('AuthUser');
+        $service = $this->getDomainService('CtrlAuthUser');
         $users = $service->getAll();
 
         return new ViewModel(array(
@@ -20,7 +20,7 @@ class UserController extends AbstractController
 
     public function editAction()
     {
-        $userService = $this->getDomainService('AuthUser');
+        $userService = $this->getDomainService('CtrlAuthUser');
         $user = $userService->getById($this->params()->fromRoute('id'));
 
         $form = new \Ctrl\Module\Auth\Form\User\Edit();

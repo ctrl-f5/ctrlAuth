@@ -20,13 +20,36 @@ class Module
     {
         $config = $serviceManager->get('Configuration');
         /** @var $auth \Ctrl\Permissions\Acl */
-        $auth = $serviceManager->get('Auth');
+        $auth = $serviceManager->get('CtrlAuthAcl');
+
+        /*
+         * Set all system resources
+         */
         if (isset($config['acl']) && isset($config['acl']['resources'])) {
             foreach ($config['acl']['resources'] as $class) {
                 /** @var $inst \Ctrl\Permissions\Resources */
                 $inst = new $class;
                 if ($inst instanceof \Ctrl\Permissions\Resources) {
-                    $auth->addResources($inst);
+                    $auth->addSystemResources($inst);
+                }
+            }
+        }
+
+        /*
+         * fetch roles and their permissions
+         */
+        $roleService = $serviceManager->get('DomainServiceLoader')->get('CtrlAuthRole');
+        /** @var $role \Ctrl\Module\Auth\Domain\Role */
+        foreach ($roleService->getAll() as $role) {
+            if (!$auth->hasRole($role->getName())) {
+                $authRole = new \Zend\Permissions\Acl\Role\GenericRole($role->getName());
+                $auth->addRole($authRole);
+            } else {
+                $authRole = $auth->getRole($role->getName());
+            }
+            foreach ($role->getPermissions() as $permission) {
+                if ($permission->isAllowed() && $auth->hasResource($permission->getResource()->getName())) {
+                    $auth->allow($authRole, $auth->getResource($permission->getResource()->getName()));
                 }
             }
         }

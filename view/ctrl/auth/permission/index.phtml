@@ -1,10 +1,15 @@
 <?php /** @var $auth \Ctrl\Permissions\Acl */ ?>
-<?php echo $this->pageTitle('Permissions'); ?>
+<?php echo $this->pageTitle('Permissionsfor role', $role->getName()); ?>
+
+<?php
+//var_dump($auth->getResourceSets());
+?>
 
 <table class="table">
     <thead>
     <tr>
         <th>name</th>
+        <th>allowed</th>
         <th>actions</th>
     </tr>
     </thead>
@@ -12,15 +17,17 @@
     <?php foreach ($auth->getResources() as $resource): ?>
     <tr>
         <td><?php echo $resource; ?></td>
+        <td><?php echo ($auth->hasResource($resource) && $auth->hasRole($role->getName()) && $auth->isAllowed($role->getName(), $resource)) ? 'allow': 'deny'; ?></td>
         <td>
-<!--            --><?php //echo $this->ctrlButton('link', array(
-//            'url' => $this->url('ctrl_auth/id', array(
-//                'controller' => 'user',
-//                'action' => 'edit',
-//                'id' => $resource->getId(),
-//            )),
-//            'value' => 'edit',
-//        )); ?>
+            <?php echo $this->ctrlButton('link', array(
+            'url' => $this->url('ctrl_auth/permission', array(
+                'controller' => 'permission',
+                'action' => 'allow',
+                'id' => $resource,
+                'role' => $role->getId(),
+            )),
+            'value' => 'edit',
+        )); ?>
 <!--            --><?php //echo $this->ctrlButton('link', array(
 //            'url' => $this->url('ctrl_auth/id', array(
 //                'controller' => 'permission',

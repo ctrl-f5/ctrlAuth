@@ -10,7 +10,7 @@ class LoginController extends AbstractController
     public function indexAction()
     {
         /** @var $service \Ctrl\Module\Auth\Service\UserService */
-        $service = $this->getDomainService('AuthUser');
+        $service = $this->getDomainService('CtrlAuthUser');
         $form = $service->getLoginForm();
 
         $form->setAttribute('action', $this->url()->fromRoute('ctrl_auth/default', array(

@@ -10,6 +10,6 @@ class IndexController extends AbstractController
     public function indexAction()
     {
         /** @var $service \Ctrl\Module\Auth\Service\UserService */
-        $service = $this->getDomainService('AuthUser');
+        $service = $this->getDomainService('CtrlAuthUser');
     }
 }

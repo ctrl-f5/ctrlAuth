@@ -14,6 +14,8 @@ class User
 
     protected $email;
 
+    protected $roles;
+
     public function setId($id)
     {
         $this->id = $id;
