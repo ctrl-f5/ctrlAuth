@@ -77,6 +77,9 @@ return array(
         'template_path_stack' => array(
             'ctrl/auth' => __DIR__ . '/../view',
         ),
+        'template_map' => array(
+            'error/access-denied'   => __DIR__ . '/../view/error/access-denied.phtml',
+        )
     ),
     'service_manager' => array(
         'invokables' => array(

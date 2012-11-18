@@ -15,19 +15,34 @@
     </thead>
     <tbody>
     <?php foreach ($auth->getResources() as $resource): ?>
+        <?php $allowed = ($auth->hasResource($resource) && $auth->hasRole($role->getName()) && $auth->isAllowed($role->getName(), $resource)) ? true: false ?>
     <tr>
         <td><?php echo $resource; ?></td>
-        <td><?php echo ($auth->hasResource($resource) && $auth->hasRole($role->getName()) && $auth->isAllowed($role->getName(), $resource)) ? 'allow': 'deny'; ?></td>
+        <td><span class="label label-<?php echo ($allowed) ? 'success': 'important'; ?>"><?php echo ($allowed) ? 'allow': 'deny'; ?></span></td>
         <td>
-            <?php echo $this->ctrlButton('link', array(
-            'url' => $this->url('ctrl_auth/permission', array(
-                'controller' => 'permission',
-                'action' => 'allow',
-                'id' => $resource,
-                'role' => $role->getId(),
-            )),
-            'value' => 'edit',
-        )); ?>
+            <?php
+            if ($allowed) {
+                echo $this->ctrlButton('link', array(
+                    'url' => $this->url('ctrl_auth/permission', array(
+                        'controller' => 'permission',
+                        'action' => 'allow',
+                        'id' => $resource,
+                        'role' => $role->getId(),
+                    )),
+                    'value' => 'revoke',
+                ), 'info');
+            } else {
+                echo $this->ctrlButton('link', array(
+                    'url' => $this->url('ctrl_auth/permission', array(
+                        'controller' => 'permission',
+                        'action' => 'allow',
+                        'id' => $resource,
+                        'role' => $role->getId(),
+                    )),
+                    'value' => 'grant',
+                ), 'warning');
+            }
+            ?>
 <!--            --><?php //echo $this->ctrlButton('link', array(
 //            'url' => $this->url('ctrl_auth/id', array(
 //                'controller' => 'permission',

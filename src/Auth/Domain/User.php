@@ -4,7 +4,7 @@ namespace Ctrl\Module\Auth\Domain;
 
 use Doctrine\ORM\Mapping as ORM;
 
-class User
+class User extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
 {
     protected $id;
 
@@ -14,6 +14,9 @@ class User
 
     protected $email;
 
+    /**
+     * @var Role[]
+     */
     protected $roles;
 
     public function setId($id)
@@ -52,5 +55,30 @@ class User
     public function authenticate($password)
     {
         return sha1($password) == $this->password;
+    }
+
+
+    public function hasAccessTo($resource)
+    {
+        /** @var $auth \Ctrl\Permissions\Acl */
+        $auth = $this->getServiceLocator()->get('CtrlAuthAcl');
+        if ($auth->hasResource($resource)) {
+            foreach ($this->getRoles() as $role) {
+                if ($auth->isAllowed($role->getName(), $resource)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+    }
+
+    public function getRoles()
+    {
+        return $this->roles;
     }
 }

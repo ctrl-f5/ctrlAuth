@@ -12,8 +12,39 @@ class Module
         $application = $e->getApplication();
         /** @var $serviceManager \Zend\ServiceManager\ServiceManager */
         $serviceManager = $application->getServiceManager();
+        $eventManager        = $e->getApplication()->getEventManager();
+        $eventManager->attach(\Zend\Mvc\MvcEvent::EVENT_DISPATCH, array($this, 'preDispatch'), 100);
 
         $this->initAcl($serviceManager);
+    }
+
+    public function preDispatch(MvcEvent $e)
+    {
+        $routeParams = $e->getRouteMatch()->getParams();
+
+        //build resource name
+        $resource = implode('.', array(
+            \Ctrl\Permissions\Resources::SET_ROUTES,
+            $routeParams['__NAMESPACE__'],
+            $routeParams['controller'],
+            $routeParams['action'],
+        ));
+
+        $serviceManager = $e->getApplication()->getServiceManager();
+        $authService = $serviceManager->get('DomainServiceLoader')->get('CtrlAuthUser');
+        $user = $authService->getAuthenticatedUser();
+        if (!$user->hasAccessTo($resource)) {
+            $e->setError('access denied');
+            /** @var $viewManager \Zend\Mvc\View\Http\ViewManager */
+            $viewManager = $serviceManager->get('ViewManager');
+            $view = new \Zend\View\Model\ViewModel(array(
+                'user' => $user,
+                'resource' => $resource,
+            ));
+            $view->setTemplate('error/access-denied');
+            $e->getViewModel()->addChild($view);
+            return false;
+        }
     }
 
     public function initAcl(\Zend\ServiceManager\ServiceManager $serviceManager)
@@ -52,6 +83,10 @@ class Module
                     $auth->allow($authRole, $auth->getResource($permission->getResource()->getName()));
                 }
             }
+            /*
+             * Always allow login page
+             */
+            $auth->allow($role->getName(), \Ctrl\Module\Auth\Permissions\Resources::RESOURCE_ROUTE_LOGIN);
         }
     }
 

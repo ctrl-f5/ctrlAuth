@@ -9,4 +9,11 @@ use Ctrl\Module\Auth\Domain\Role;
 class RoleService extends \Ctrl\Service\AbstractDomainModelService
 {
     protected $entity = 'Ctrl\Module\Auth\Domain\Role';
+
+    public function getGuestRoles()
+    {
+        return array(
+            new \Zend\Permissions\Acl\Role\GenericRole('guest')
+        );
+    }
 }

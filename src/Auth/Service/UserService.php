@@ -4,18 +4,14 @@ namespace Ctrl\Module\Auth\Service;
 
 use \Ctrl\Module\Auth\Domain;
 use Ctrl\Module\Auth\Domain\User;
-use Ctrl\Form\Form;
-use Zend\InputFilter\Factory as FilterFactory;
-use Zend\InputFilter\InputFilter;
-use Ctrl\Form\Element\Text as TextInput;
-use Ctrl\Form\Element\Textarea as TextareaInput;
-use Ctrl\Form\Element\Select as SelectInput;
 
 class UserService extends \Ctrl\Service\AbstractDomainModelService
 {
     const EVENT_ON_LOGIN = 'on.login';
 
     protected $entity = 'Ctrl\Module\Auth\Domain\User';
+
+    protected $guestUser;
 
     public function getForm(User $user = null)
     {
@@ -30,24 +26,6 @@ class UserService extends \Ctrl\Service\AbstractDomainModelService
         $form = new \Ctrl\Module\Auth\Form\User\Login('user-login');
 
         return $form;
-    }
-
-    public function getModelInputFilter(Article $article = null)
-    {
-        $factory = new FilterFactory();
-        $filter = new InputFilter();
-        $filter->add($factory->createInput(array(
-            'name'     => 'title',
-            'required' => true,
-        )))->add($factory->createInput(array(
-            'name'     => 'content',
-            'required' => true,
-        )))->add($factory->createInput(array(
-            'name'     => 'content',
-            'required' => true,
-        )));
-
-        return $filter;
     }
 
     public function authenticate($username, $password)
@@ -68,11 +46,30 @@ class UserService extends \Ctrl\Service\AbstractDomainModelService
         return true;
     }
 
+    /**
+     * return the logged in user
+     *
+     * @return bool|\Ctrl\Domain\PersistableModel
+     */
     public function getAuthenticatedUser()
     {
         $session = new \Zend\Session\Container('ctrl_module_auth');
         if ($session->offsetGet('auth.authenticated')) {
             return $this->getById($session->offsetGet('auth.user'));
+        } else {
+            return $this->getGuestUser();
+        }
+    }
+
+    /**
+     * @param \Ctrl\Module\Auth\Domain\User $user
+     * @return bool
+     */
+    public function isAuthenticatedUser(User $user)
+    {
+        $session = new \Zend\Session\Container('ctrl_module_auth');
+        if ($session->offsetGet('auth.authenticated') == $user->getId()) {
+            return true;
         }
         return false;
     }
@@ -92,5 +89,19 @@ class UserService extends \Ctrl\Service\AbstractDomainModelService
             throw new Exception($this->entity.' not found with username: '.$username);
         }
         return $entities[0];
+    }
+
+    public function getGuestUser()
+    {
+        if (!$this->guestUser) {
+            $guest = new User();
+            $guest->setId(0);
+            $guest->setUsername('guest');
+            $guest->setServiceLocator($this->getServiceLocator());
+            $roleService = $this->getDomainService('CtrlAuthRole');
+            $guest->setRoles($roleService->getGuestRoles());
+            $this->guestUser = $guest;
+        }
+        return $this->guestUser;
     }
 }

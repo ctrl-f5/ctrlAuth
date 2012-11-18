@@ -4,17 +4,17 @@ namespace Ctrl\Module\Auth\Permissions;
 
 class Resources extends \Ctrl\Permissions\Resources
 {
-    const SET_ROUTES = 'Ctrl.Module.Auth.routes';
     const SET_ACTIONS = 'Ctrl.Module.Auth.actions';
 
     const ACTION_USER_REMOVE = 'User.remove';
+
+    const RESOURCE_ROUTE_LOGIN = 'routes.Ctrl\Module\Auth\Controller\Login.index';
 
     public function getSets()
     {
         return array_merge(
             parent::getSets(),
             array(
-                self::SET_ROUTES,
                 self::SET_ACTIONS,
             )
         );
@@ -26,19 +26,16 @@ class Resources extends \Ctrl\Permissions\Resources
             parent::getResources(),
             array(
                 self::SET_ROUTES => array(
-                    'Ctrl\Module\Auth\Controller' => array(
-                        'Index' => array(
-                            'index',
-                            'auth',
-                        ),
-                        'User' => array(
-                            'index',
-                            'edit',
-                        ),
-                        'User' => array(
-                            'index',
-                            'edit',
-                        ),
+                    'Ctrl\Module\Auth\Controller\Index' => array(
+                        'index',
+                        'auth',
+                    ),
+                    'Ctrl\Module\Auth\Controller\Login' => array(
+                        'index',
+                    ),
+                    'Ctrl\Module\Auth\Controller\User' => array(
+                        'index',
+                        'edit',
                     )
                 ),
                 self::SET_ACTIONS => array(
