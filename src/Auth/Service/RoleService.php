@@ -12,8 +12,9 @@ class RoleService extends \Ctrl\Service\AbstractDomainModelService
 
     public function getGuestRoles()
     {
+        $roleService = $this->getDomainService('CtrlAuthRole');
         return array(
-            new \Zend\Permissions\Acl\Role\GenericRole('guest')
+            $roleService->getById(2),
         );
     }
 }

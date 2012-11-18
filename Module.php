@@ -25,7 +25,6 @@ class Module
         //build resource name
         $resource = implode('.', array(
             \Ctrl\Permissions\Resources::SET_ROUTES,
-            $routeParams['__NAMESPACE__'],
             $routeParams['controller'],
             $routeParams['action'],
         ));

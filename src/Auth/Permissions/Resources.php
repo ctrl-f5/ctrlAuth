@@ -36,7 +36,13 @@ class Resources extends \Ctrl\Permissions\Resources
                     'Ctrl\Module\Auth\Controller\User' => array(
                         'index',
                         'edit',
-                    )
+                    ),
+                    'Ctrl\Module\Auth\Controller\Role' => array(
+                        'index',
+                    ),
+                    'Ctrl\Module\Auth\Controller\Permission' => array(
+                        'index',
+                    ),
                 ),
                 self::SET_ACTIONS => array(
                     self::ACTION_USER_REMOVE,
