@@ -1,0 +1,48 @@
+<?php /** @var $this \Ctrl\View\PhpView */ ; ?>
+
+<?php echo $this->pageTitle('Roles'); ?>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($this->roles as $role): ?>
+        <tr>
+            <td><?php echo $role->getId(); ?></td>
+            <td><?php echo $role->getName(); ?></td>
+            <td>
+                <?php echo $this->ctrlButton('link', array(
+                    'url' => $this->url('ctrl_auth/id', array(
+                        'controller' => 'role',
+                        'action' => 'edit',
+                        'id' => $role->getId(),
+                    )),
+                    'value' => 'edit',
+                )); ?>
+                <?php echo $this->ctrlButton('link', array(
+                'url' => $this->url('ctrl_auth/id', array(
+                    'controller' => 'permission',
+                    'action' => 'index',
+                    'id' => $role->getId(),
+                )),
+                'value' => 'permissions',
+                ), 'info'); ?>
+                <?php echo $this->ctrlButton('link', array(
+                'url' => $this->url('ctrl_auth/id', array(
+                    'controller' => 'role',
+                    'action' => 'delete',
+                    'id' => $role->getId(),
+                )),
+                'value' => 'delete',
+                'confirm' => 'are you sure you want to delete this role?',
+                ), 'danger'); ?>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>

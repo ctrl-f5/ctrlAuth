@@ -6,62 +6,45 @@
 ?>
 
 <table class="table">
-    <thead>
-    <tr>
-        <th>name</th>
-        <th>allowed</th>
-        <th>actions</th>
-    </tr>
-    </thead>
     <tbody>
-    <?php foreach ($auth->getResources() as $resource): ?>
-        <?php $allowed = ($auth->hasResource($resource) && $auth->hasRole($role->getName()) && $auth->isAllowed($role->getName(), $resource)) ? true: false ?>
-    <tr>
-        <td><?php echo $resource; ?></td>
-        <td><span class="label label-<?php echo ($allowed) ? 'success': 'important'; ?>"><?php echo ($allowed) ? 'allow': 'deny'; ?></span></td>
-        <td>
-            <?php
-            if ($allowed) {
-                echo $this->ctrlButton('link', array(
-                    'url' => $this->url('ctrl_auth/permission', array(
-                        'controller' => 'permission',
-                        'action' => 'allow',
-                        'id' => $resource,
-                        'role' => $role->getId(),
-                    )),
-                    'value' => 'revoke',
-                ), 'info');
-            } else {
-                echo $this->ctrlButton('link', array(
-                    'url' => $this->url('ctrl_auth/permission', array(
-                        'controller' => 'permission',
-                        'action' => 'allow',
-                        'id' => $resource,
-                        'role' => $role->getId(),
-                    )),
-                    'value' => 'grant',
-                ), 'warning');
-            }
-            ?>
-<!--            --><?php //echo $this->ctrlButton('link', array(
-//            'url' => $this->url('ctrl_auth/id', array(
-//                'controller' => 'permission',
-//                'action' => 'index',
-//                'id' => $resource->getId(),
-//            )),
-//            'value' => 'permissions',
-//        ), 'info'); ?>
-<!--            --><?php //echo $this->ctrlButton('link', array(
-//            'url' => $this->url('ctrl_auth/id', array(
-//                'controller' => 'user',
-//                'action' => 'delete',
-//                'id' => $resource->getId(),
-//            )),
-//            'value' => 'delete',
-//            'confirm' => 'are you sure you want to delete this user?',
-//        ), 'danger'); ?>
-        </td>
-    </tr>
+    <?php foreach ($auth->getResourceSets() as $set): ?>
+        <tr>
+            <th colspan="4"><?php echo $set; ?></th>
+        </tr>
+        <?php foreach ($auth->getResources() as $resource): ?>
+            <?php if (strpos($resource, $set) === false) continue; ?>
+            <?php $allowed = ($auth->hasResource($resource) && $auth->hasRole($role->getName()) && $auth->isAllowed($role->getName(), $resource)) ? true: false ?>
+            <tr>
+                <td><label class="icon icon-chevron-right"></label></td>
+                <td><?php echo $resource; ?></td>
+                <td><span class="label label-<?php echo ($allowed) ? 'success': 'important'; ?>"><?php echo ($allowed) ? 'allow': 'deny'; ?></span></td>
+                <td>
+                    <?php
+                    if ($allowed) {
+                        echo $this->ctrlButton('link', array(
+                            'url' => $this->url('ctrl_auth/permission', array(
+                                'controller' => 'permission',
+                                'action' => 'allow',
+                                'id' => $resource,
+                                'role' => $role->getId(),
+                            )),
+                            'value' => 'revoke',
+                        ), 'info');
+                    } else {
+                        echo $this->ctrlButton('link', array(
+                            'url' => $this->url('ctrl_auth/permission', array(
+                                'controller' => 'permission',
+                                'action' => 'allow',
+                                'id' => $resource,
+                                'role' => $role->getId(),
+                            )),
+                            'value' => 'grant',
+                        ), 'warning');
+                    }
+                    ?>
+                </td>
+            </tr>
         <?php endforeach; ?>
+    <?php endforeach; ?>
     </tbody>
 </table>

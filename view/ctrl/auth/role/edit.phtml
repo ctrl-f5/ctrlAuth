@@ -1,6 +1,6 @@
 <?php
 /** @var $this \Ctrl\View\PhpView */
-echo $this->pageTitle($user->getUsername(), 'edit user');
+echo $this->pageTitle($role->getName(), 'edit role');
 
 $form->setLabel('Please provide your credentials');
 echo $this->ctrlForm()->createForm(
@@ -9,7 +9,9 @@ echo $this->ctrlForm()->createForm(
         $this->ctrlButton('submit', array('value' => 'save'), 'primary'),
         $this->ctrlButton('link', array(
             'value' => 'cancel',
-            'url' => $form->getReturnUrl(),
+            'url' => $this->url('ctrl_auth', array(
+                'controller' => 'role',
+            )),
         )),
     )
 );

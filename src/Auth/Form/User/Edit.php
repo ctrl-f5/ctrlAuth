@@ -55,4 +55,9 @@ class Edit extends \Ctrl\Form\Form
 
         return $filter;
     }
+
+    public function loadModel(\Ctrl\Module\Auth\Domain\User $user)
+    {
+        $this->elements[self::ELEM_USERNAME]->setValue($user->getUsername());
+    }
 }

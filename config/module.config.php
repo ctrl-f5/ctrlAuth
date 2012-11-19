@@ -61,6 +61,7 @@ return array(
             'Ctrl\Module\Auth\Controller\Index' => 'Ctrl\Module\Auth\Controller\IndexController',
             'Ctrl\Module\Auth\Controller\Login' => 'Ctrl\Module\Auth\Controller\LoginController',
             'Ctrl\Module\Auth\Controller\User' => 'Ctrl\Module\Auth\Controller\UserController',
+            'Ctrl\Module\Auth\Controller\Role' => 'Ctrl\Module\Auth\Controller\RoleController',
             'Ctrl\Module\Auth\Controller\Permission' => 'Ctrl\Module\Auth\Controller\PermissionController',
         ),
     ),

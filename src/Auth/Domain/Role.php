@@ -4,13 +4,8 @@ namespace Ctrl\Module\Auth\Domain;
 
 use Doctrine\ORM\Mapping as ORM;
 
-class Role
+class Role extends \Ctrl\Domain\PersistableModel
 {
-    /**
-     * @var int
-     */
-    protected $id;
-
     /**
      * @var string
      */
@@ -25,22 +20,6 @@ class Role
      * @var Permission[]
      */
     protected $permissions;
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * @param string $name
