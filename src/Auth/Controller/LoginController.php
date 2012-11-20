@@ -26,12 +26,21 @@ class LoginController extends AbstractController
                     $elems[$form::ELEM_USERNAME]->getValue(),
                     $elems[$form::ELEM_PASSWORD]->getValue()
                 );
-                return $this->redirect()->toUrl('/auth/');
+                return $this->redirect()->toRoute('ctrl_auth');
             }
         }
 
         return new ViewModel(array(
             'form' => $form
         ));
+    }
+
+    public function logoutAction()
+    {
+        /** @var $service \Ctrl\Module\Auth\Service\UserService */
+        $service = $this->getDomainService('CtrlAuthUser');
+        $service->resetAuthentication();
+
+        return $this->redirect()->toRoute('ctrl_auth');
     }
 }

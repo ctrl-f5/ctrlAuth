@@ -8,6 +8,7 @@ use Ctrl\Module\Auth\Domain\User;
 class UserService extends \Ctrl\Service\AbstractDomainModelService
 {
     const EVENT_ON_LOGIN = 'on.login';
+    const EVENT_ON_LOGOUT = 'on.logout';
 
     protected $entity = 'Ctrl\Module\Auth\Domain\User';
 
@@ -38,6 +39,16 @@ class UserService extends \Ctrl\Service\AbstractDomainModelService
         }
     }
 
+    public function resetAuthentication()
+    {
+        $user = $this->getAuthenticatedUser();
+        if ($user->getUsername() != 'guest') {
+            if ($this->removeAuth($user)) {
+                $this->getEventManager()->trigger(self::EVENT_ON_LOGOUT, $this, array('user' => $user));
+            }
+        }
+    }
+
     public function saveAuth(User $user)
     {
         $session = new \Zend\Session\Container('ctrl_module_auth');
@@ -46,10 +57,18 @@ class UserService extends \Ctrl\Service\AbstractDomainModelService
         return true;
     }
 
+    public function removeAuth(User $user)
+    {
+        $session = new \Zend\Session\Container('ctrl_module_auth');
+        $session->offsetSet('auth.authenticated', 0);
+        $session->offsetSet('auth.user', 0);
+        return true;
+    }
+
     /**
      * return the logged in user
      *
-     * @return bool|\Ctrl\Domain\PersistableModel
+     * @return bool|User
      */
     public function getAuthenticatedUser()
     {
@@ -95,7 +114,6 @@ class UserService extends \Ctrl\Service\AbstractDomainModelService
     {
         if (!$this->guestUser) {
             $guest = new User();
-            $guest->setId(0);
             $guest->setUsername('guest');
             $guest->setServiceLocator($this->getServiceLocator());
             $roleService = $this->getDomainService('CtrlAuthRole');

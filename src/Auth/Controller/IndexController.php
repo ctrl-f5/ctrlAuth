@@ -11,5 +11,9 @@ class IndexController extends AbstractController
     {
         /** @var $service \Ctrl\Module\Auth\Service\UserService */
         $service = $this->getDomainService('CtrlAuthUser');
+
+        return new ViewModel(array(
+            'user' => $service->getAuthenticatedUser()
+        ));
     }
 }

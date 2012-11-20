@@ -6,12 +6,19 @@ use Doctrine\ORM\Mapping as ORM;
 
 class User extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
 {
-    protected $id;
-
+    /**
+     * @var string
+     */
     protected $username;
 
+    /**
+     * @var string
+     */
     protected $password;
 
+    /**
+     * @var string
+     */
     protected $email;
 
     /**
@@ -19,15 +26,9 @@ class User extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
      */
     protected $roles;
 
-    public function setId($id)
+    public function __construct()
     {
-        $this->id = $id;
-        return $this;
-    }
-
-    public function getId()
-    {
-        return $this->id;
+        $this->roles = new Collection();
     }
 
     public function setPassword($password)
@@ -57,7 +58,6 @@ class User extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
         return sha1($password) == $this->password;
     }
 
-
     public function hasAccessTo($resource)
     {
         /** @var $auth \Ctrl\Permissions\Acl */
@@ -74,6 +74,7 @@ class User extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
 
     public function setRoles($roles)
     {
+        $roles = new Collection($roles);
         $this->roles = $roles;
     }
 

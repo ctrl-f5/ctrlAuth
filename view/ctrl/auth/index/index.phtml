@@ -1,2 +1,26 @@
 <h1>Auth</h1>
 
+<?php if ($user->getUsername() == 'guest'): ?>
+    <?php echo $this->ctrlButton('link', array(
+        'href' => $this->url('ctrl_auth', array('controller' => 'login')),
+        'value' => 'Log in',
+    ), 'primary'); ?>
+<?php else: ?>
+    <p>Welcome, <?php echo $user->getUsername(); ?></p>
+    <p>
+        <?php echo $this->ctrlButton('link', array(
+            'href' => $this->url('ctrl_auth/id', array(
+                'controller' => 'permission',
+                'id' => $user->getRoles()->first()->getId(),
+            )),
+            'value' => 'Permissions',
+        ), 'info'); ?>
+        <?php echo $this->ctrlButton('link', array(
+            'href' => $this->url('ctrl_auth', array(
+                'controller' => 'login',
+                'action' => 'logout',
+            )),
+            'value' => 'Logout',
+        ), 'danger'); ?>
+    </p>
+<?php endif; ?>

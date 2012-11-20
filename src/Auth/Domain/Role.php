@@ -68,4 +68,9 @@ class Role extends \Ctrl\Domain\PersistableModel
     {
         return $this->users;
     }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }

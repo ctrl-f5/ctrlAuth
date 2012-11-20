@@ -14,7 +14,7 @@ class RoleService extends \Ctrl\Service\AbstractDomainModelService
     {
         $roleService = $this->getDomainService('CtrlAuthRole');
         return array(
-            $roleService->getById(2),
+            $roleService->getById(1),
         );
     }
 }
