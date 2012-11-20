@@ -84,8 +84,11 @@ return array(
     ),
     'service_manager' => array(
         'invokables' => array(
-            'CtrlAuthAcl' => 'Ctrl\Permissions\Acl'
-        )
+            'CtrlAuthAcl' => 'Ctrl\Permissions\Acl',
+        ),
+        'factories' => array(
+            'CtrlAuthNavigation' => 'Ctrl\Module\Auth\Navigation\AuthNavigationFactory',
+        ),
     ),
     'acl' => array(
         'resources' => array(
@@ -105,5 +108,38 @@ return array(
                 )
             )
         ),
+    ),
+    'navigation' => array(
+        'ctrl_auth' => array(
+            array(
+                'label' => 'users',
+                'route' => 'ctrl_auth',
+                'type' => 'Ctrl\Navigation\Page\Mvc',
+                'resource' => 'routes.Ctrl\Module\Auth\Controller\User',
+                'params' => array(
+                    'controller' => 'user'
+                ),
+            ),
+            array(
+                'label' => 'roles',
+                'route' => 'ctrl_auth',
+                'type' => 'Ctrl\Navigation\Page\Mvc',
+                'resource' => 'routes.Ctrl\Module\Auth\Controller\Role',
+                'params' => array(
+                    'controller' => 'role'
+                ),
+                'pages' => array(
+                    array(
+                        'label' => 'permissions',
+                        'route' => 'ctrl_auth/id',
+                        'type' => 'Ctrl\Navigation\Page\Mvc',
+                        'resource' => 'routes.Ctrl\Module\Auth\Controller\Permission',
+                        'params' => array(
+                            'controller' => 'permission'
+                        ),
+                    ),
+                )
+            ),
+        )
     )
 );
