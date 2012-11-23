@@ -31,14 +31,6 @@ return array(
             'error/access-denied'   => __DIR__ . '/../view/error/access-denied.phtml',
         )
     ),
-    'service_manager' => array(
-        'invokables' => array(
-            'CtrlAuthAcl' => 'Ctrl\Permissions\Acl',
-        ),
-        'factories' => array(
-            'CtrlAuthNavigation' => 'Ctrl\Module\Auth\Navigation\AuthNavigationFactory',
-        ),
-    ),
     'acl' => array(
         'resources' => array(
             'AuthResources' => 'Ctrl\Module\Auth\Permissions\Resources'
