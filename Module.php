@@ -53,7 +53,11 @@ class Module
 
     public function getConfig()
     {
-        return include __DIR__ . '/config/module.config.php';
+        return array_merge(
+            $this->getRouterConfig(),
+            include __DIR__ . '/config/module.config.php'
+        );
+
     }
 
     public function getAutoloaderConfig()
@@ -65,5 +69,40 @@ class Module
                 ),
             ),
         );
+    }
+
+    public function getRouterConfig()
+    {
+        $config = array('router' => array(
+            'routes' => array(
+                'ctrl_auth' => \Ctrl\Mvc\Router\Http\DefaultSegment::factory(
+                    'Ctrl\Module\Auth\Controller',
+                    '/auth',
+                    array(
+                        'permission' => array(
+                            'type'    => 'Segment',
+                            'may_terminate' => true,
+                            'options' => array(
+                                'route'    => '/[:role]/[:resource]',
+                                'constraints' => array(
+                                    'role'   => '[0-9]+',
+                                ),
+                            ),
+                        ),
+                        'permission/id' => array(
+                            'type'    => 'Segment',
+                            'may_terminate' => true,
+                            'options' => array(
+                                'route'    => '/[:id]',
+                                'constraints' => array(
+                                    'id'   => '[0-9]+',
+                                ),
+                            ),
+                        )
+                    )
+                ),
+            ),
+        ));
+        return $config;
     }
 }

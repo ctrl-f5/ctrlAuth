@@ -3,57 +3,6 @@
 namespace Ctrl\Module\Auth;
 
 return array(
-    'router' => array(
-        'routes' => array(
-            'ctrl_auth' => array(
-                'type'    => 'Segment',
-                'options' => array(
-                    'route'    => '/auth[/:controller][/:action]',
-                    'constraints' => array(
-                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                    ),
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'Ctrl\Module\Auth\Controller',
-                        'controller'    => 'Index',
-                        'action'        => 'index',
-                    ),
-                ),
-                'may_terminate' => true,
-                'child_routes' => array(
-                    'permission' => array(
-                        'type'    => 'Segment',
-                        'may_terminate' => true,
-                        'options' => array(
-                            'route'    => '/[:role]/[:resource]',
-                            'constraints' => array(
-                                'role'   => '[0-9]+',
-                            ),                        ),
-                    ),
-                    'id' => array(
-                        'type'    => 'Segment',
-                        'may_terminate' => true,
-                        'options' => array(
-                            'route'    => '/[:id]',
-                            'constraints' => array(
-                                'id'     => '[0-9]+',
-                            ),
-                        ),
-                        'child_routes' => array(
-                            'query' => array(
-                                'type'    => 'Query',
-                                'may_terminate' => true,
-                            ),
-                        ),
-                    ),
-                    'query' => array(
-                        'type'    => 'Query',
-                        'may_terminate' => true,
-                    ),
-                ),
-            ),
-        ),
-    ),
     'controllers' => array(
         'invokables' => array(
             'Ctrl\Module\Auth\Controller\Index' => 'Ctrl\Module\Auth\Controller\IndexController',
