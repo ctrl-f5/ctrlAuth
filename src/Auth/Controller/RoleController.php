@@ -12,9 +12,12 @@ class RoleController extends AbstractController
         /** @var $service \Ctrl\Module\Auth\Service\RoleService */
         $service = $this->getDomainService('CtrlAuthRole');
         $roles = $service->getAll();
+        $userService = $this->getDomainService('CtrlAuthUser');
+        $user = $userService->getById($this->params()->fromRoute('id'));
 
         return new ViewModel(array(
-            'roles' => $roles
+            'roles' => $roles,
+            'user' => $user,
         ));
     }
 

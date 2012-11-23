@@ -26,11 +26,11 @@
                 )); ?>
                 <?php echo $this->ctrlButton('link', array(
                 'url' => $this->url('ctrl_auth/id', array(
-                    'controller' => 'permission',
+                    'controller' => 'role',
                     'action' => 'index',
                     'id' => $user->getId(),
                 )),
-                'value' => 'permissions',
+                'value' => 'roles',
                 ), 'info'); ?>
                 <?php echo $this->ctrlButton('link', array(
                 'url' => $this->url('ctrl_auth/id', array(

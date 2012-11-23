@@ -1,6 +1,7 @@
 <?php /** @var $this \Ctrl\View\PhpView */ ; ?>
 
-<?php echo $this->pageTitle('Roles'); ?>
+<?php $subtitle = ($user) ? 'by user '.$user->getUsername() : ''; ?>
+<?php echo $this->pageTitle('Roles', $subtitle); ?>
 
 <table class="table">
     <thead>

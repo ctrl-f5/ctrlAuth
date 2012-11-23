@@ -6,6 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 class User extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
 {
+    const COMBINED_ROLE_KEY = 'ctrl_auth_combined';
+
     /**
      * @var string
      */
@@ -25,6 +27,11 @@ class User extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
      * @var Role[]
      */
     protected $roles;
+
+    /**
+     * @var \Zend\Permissions\Acl\Role\GenericRole
+     */
+    protected $combinedRole;
 
     public function __construct()
     {

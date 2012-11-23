@@ -25,12 +25,10 @@ return array(
                         'type'    => 'Segment',
                         'may_terminate' => true,
                         'options' => array(
-                            'route'    => '/[:id][/:role]',
+                            'route'    => '/[:role]/[:resource]',
                             'constraints' => array(
-                                'id'     => '[0-9]+',
                                 'role'   => '[0-9]+',
-                            ),
-                        ),
+                            ),                        ),
                     ),
                     'id' => array(
                         'type'    => 'Segment',
@@ -69,6 +67,8 @@ return array(
         'invokables' => array(
             'CtrlAuthUser' => 'Ctrl\Module\Auth\Service\UserService',
             'CtrlAuthRole' => 'Ctrl\Module\Auth\Service\RoleService',
+            'CtrlAuthPermission' => 'Ctrl\Module\Auth\Service\PermissionService',
+            'CtrlAuthResource' => 'Ctrl\Module\Auth\Service\ResourceService',
         ),
     ),
     'view_manager' => array(

@@ -2,9 +2,10 @@
 
 namespace Ctrl\Module\Auth\Domain;
 
+use \Ctrl\Module\Auth\Domain;;
 use Doctrine\ORM\Mapping as ORM;
 
-class Role extends \Ctrl\Domain\PersistableModel
+class Role extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
 {
     /**
      * @var string
@@ -17,9 +18,14 @@ class Role extends \Ctrl\Domain\PersistableModel
     protected $users;
 
     /**
-     * @var Permission[]
+     * @var Permission[]|Collection
      */
     protected $permissions;
+
+    public function __construct()
+    {
+        $this->permissions = new Collection();
+    }
 
     /**
      * @param string $name
@@ -67,6 +73,57 @@ class Role extends \Ctrl\Domain\PersistableModel
     public function getUsers()
     {
         return $this->users;
+    }
+
+    public function allowResource($resource)
+    {
+        $resource = $this->assertResource($resource);
+        $permission = $this->getPermissionForResource($resource);
+        $permission->setAllowed(true);
+    }
+
+    public function denyResource($resource)
+    {
+        $resource = $this->assertResource($resource);
+        $permission = $this->getPermissionForResource($resource);
+        $permission->setAllowed(false);
+    }
+
+    public function getPermissionForResource($resource)
+    {
+        $resource = $this->assertResource($resource);
+
+        //find it
+        foreach ($this->permissions as $p) {
+            if ($p->getResource()->getName() == $resource->getName()) {
+                return $p;
+            }
+        }
+        //or create it
+        $permission = new Permission($this, $resource);
+        $this->permissions[] = $permission;
+        return $permission;
+    }
+
+    /**
+     * @param $resource
+     * @return Resource
+     */
+    protected function assertResource($resource)
+    {
+        $resourceService = $this->getDomainService('CtrlAuthResource');
+        if (is_string($resource)) {
+            $res = $resourceService->getByName($resource);
+            if (!$res) {
+                $res = new Domain\Resource($resource);
+                $resourceService->persist($res);
+            }
+            $resource = $res;
+        }
+        if (!($resource instanceof Resource)) {
+            throw new \Ctrl\Module\Auth\Exception('invalid resource passed');
+        }
+        return $resource;
     }
 
     public function __toString()

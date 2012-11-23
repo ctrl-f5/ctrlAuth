@@ -4,13 +4,8 @@ namespace Ctrl\Module\Auth\Domain;
 
 use Doctrine\ORM\Mapping as ORM;
 
-class Resource
+class Resource extends \Ctrl\Domain\PersistableModel
 {
-    /**
-     * @var int
-     */
-    protected $id;
-
     /**
      * @var string
      */
@@ -21,20 +16,9 @@ class Resource
      */
     protected $permissions;
 
-    /**
-     * @param int $id
-     */
-    public function setId($id)
+    public function __construct($name)
     {
-        $this->id = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
+        $this->setName($name);
     }
 
     /**
@@ -42,7 +26,11 @@ class Resource
      */
     public function setName($name)
     {
-        $this->name = $name;
+        if (!is_string($name) || !strlen(trim($name))) {
+            throw new \Ctrl\Module\Auth\Exception('invalid Resource name');
+        }
+
+        $this->name = trim($name);
     }
 
     /**

@@ -24,9 +24,9 @@
                         echo $this->ctrlButton('link', array(
                             'url' => $this->url('ctrl_auth/permission', array(
                                 'controller' => 'permission',
-                                'action' => 'allow',
-                                'id' => $resource,
+                                'action' => 'deny-role',
                                 'role' => $role->getId(),
+                                'resource' => $resource,
                             )),
                             'value' => 'revoke',
                         ), 'info');
@@ -34,9 +34,9 @@
                         echo $this->ctrlButton('link', array(
                             'url' => $this->url('ctrl_auth/permission', array(
                                 'controller' => 'permission',
-                                'action' => 'allow',
-                                'id' => $resource,
+                                'action' => 'allow-role',
                                 'role' => $role->getId(),
+                                'resource' => $resource,
                             )),
                             'value' => 'grant',
                         ), 'warning');

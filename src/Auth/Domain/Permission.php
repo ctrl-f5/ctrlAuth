@@ -4,13 +4,8 @@ namespace Ctrl\Module\Auth\Domain;
 
 use Doctrine\ORM\Mapping as ORM;
 
-class Permission
+class Permission extends \Ctrl\Domain\PersistableModel
 {
-    /**
-     * @var int
-     */
-    protected $id;
-
     /**
      * @var Resource
      */
@@ -26,20 +21,10 @@ class Permission
      */
     protected $role;
 
-    /**
-     * @param int $id
-     */
-    public function setId($id)
+    public function __construct(Role $role, Resource $resource, $allowed = false)
     {
-        $this->id = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
+        $this->setRole($role);
+        $this->setResource($resource);
     }
 
     /**
@@ -61,7 +46,7 @@ class Permission
     /**
      * @param Resource $resource
      */
-    public function setResource($resource)
+    public function setResource(Resource $resource)
     {
         $this->resource = $resource;
     }

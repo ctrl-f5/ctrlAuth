@@ -4,6 +4,7 @@ namespace Ctrl\Module\Auth\Controller;
 
 use Ctrl\Controller\AbstractController;;
 use Zend\View\Model\ViewModel;
+use Ctrl\Module\Auth\Domain\Role;
 
 class PermissionController extends AbstractController
 {
@@ -35,6 +36,38 @@ class PermissionController extends AbstractController
         return new ViewModel(array(
             'user' => $user,
             'form' => $form,
+        ));
+    }
+
+    public function allowRoleAction()
+    {
+        $roleService = $this->getDomainService('CtrlAuthRole');
+        /** @var $role Role */
+        $role = $roleService->getById($this->params()->fromRoute('role'));
+        $premissionService = $this->getDomainService('CtrlAuthPermission');
+        $role->allowResource($this->params()->fromRoute('resource'));
+        $roleService->persist($role);
+
+        return $this->redirect()->toRoute('ctrl_auth/id', array(
+            'controller' => 'permission',
+            'action' => 'index',
+            'id' => $role->getId(),
+        ));
+    }
+
+    public function denyRoleAction()
+    {
+        $roleService = $this->getDomainService('CtrlAuthRole');
+        /** @var $role Role */
+        $role = $roleService->getById($this->params()->fromRoute('role'));
+        $premissionService = $this->getDomainService('CtrlAuthPermission');
+        $role->denyResource($this->params()->fromRoute('resource'));
+        $roleService->persist($role);
+
+        return $this->redirect()->toRoute('ctrl_auth/id', array(
+            'controller' => 'permission',
+            'action' => 'index',
+            'id' => $role->getId(),
         ));
     }
 }

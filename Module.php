@@ -44,24 +44,11 @@ class Module
          * fetch roles and their permissions
          */
         $roleService = $serviceManager->get('DomainServiceLoader')->get('CtrlAuthRole');
-        /** @var $role \Ctrl\Module\Auth\Domain\Role */
-        foreach ($roleService->getAll() as $role) {
-            if (!$auth->hasRole($role->getName())) {
-                $authRole = new \Zend\Permissions\Acl\Role\GenericRole($role->getName());
-                $auth->addRole($authRole);
-            } else {
-                $authRole = $auth->getRole($role->getName());
-            }
-            foreach ($role->getPermissions() as $permission) {
-                if ($permission->isAllowed() && $auth->hasResource($permission->getResource()->getName())) {
-                    $auth->allow($authRole, $auth->getResource($permission->getResource()->getName()));
-                }
-            }
-            /*
-             * Always allow login page
-             */
-            $auth->allow($role->getName(), \Ctrl\Module\Auth\Permissions\Resources::RESOURCE_ROUTE_LOGIN);
-        }
+        $auth->addRoles($roleService->getAll());
+        /*
+        * Always allow login page
+        */
+        $auth->allow($auth->getRoles(), \Ctrl\Module\Auth\Permissions\Resources::RESOURCE_ROUTE_LOGIN);
     }
 
     public function getConfig()
