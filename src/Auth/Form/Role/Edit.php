@@ -41,5 +41,8 @@ class Edit extends \Ctrl\Form\Form
     public function loadModel(\Ctrl\Module\Auth\Domain\Role $role)
     {
         $this->elements[self::ELEM_NAME]->setValue($role->getName());
+        if ($role->isSystemRole()) {
+            $this->elements[self::ELEM_NAME]->setAttribute('disabled', 'disabled');
+        }
     }
 }

@@ -1,6 +1,6 @@
 <h1>Auth</h1>
 
-<?php if ($user->getUsername() == 'guest'): ?>
+<?php if ($user->isGuestUser()): ?>
     <?php echo $this->ctrlButton('link', array(
         'href' => $this->url('ctrl_auth', array('controller' => 'login')),
         'value' => 'Log in',
@@ -11,7 +11,7 @@
         <?php echo $this->ctrlButton('link', array(
             'href' => $this->url('ctrl_auth/id', array(
                 'controller' => 'permission',
-                'id' => $user->getRoles()->first()->getId(),
+                'id' => $user->getRoles()->last()->getId(),
             )),
             'value' => 'Permissions',
         ), 'info'); ?>

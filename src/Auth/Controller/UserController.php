@@ -50,4 +50,52 @@ class UserController extends AbstractController
             'form' => $form,
         ));
     }
+
+    public function addRoleAction()
+    {
+        /** @var $userService \Ctrl\Blog\Service\UserService */
+        $userService = $this->getDomainService('CtrlAuthUser');
+        /** @var $user \Ctrl\Module\Auth\Domain\User */
+        $user = $userService->getById($this->params()->fromRoute('id'));
+        /** @var $roleService \Ctrl\Module\Auth\Service\RoleService */
+        $roleService = $this->getDomainService('CtrlAuthRole');
+
+        if ($this->params()->fromQuery('role')) {
+            /** @var $role \Ctrl\Module\Auth\Domain\Role */
+            $role = $roleService->getById($this->params()->fromQuery('role'));
+            $user->linkRole($role);
+            $userService->persist($user);
+            return $this->redirect()->toRoute('ctrl_auth/id', array(
+                'controller' => 'role',
+                'id' => $user->getId(),
+            ));
+        } else {
+            $roles = $roleService->getAssignableToUser($user);
+
+            return new ViewModel(array(
+                'user' => $user,
+                'roles' => $roles,
+            ));
+        }
+    }
+
+    public function removeRoleAction()
+    {
+        /** @var $userService \Ctrl\Blog\Service\UserService */
+        $userService = $this->getDomainService('CtrlAuthUser');
+        /** @var $user \Ctrl\Module\Auth\Domain\User */
+        $user = $userService->getById($this->params()->fromRoute('id'));
+        /** @var $roleService \Ctrl\Module\Auth\Service\RoleService */
+        $roleService = $this->getDomainService('CtrlAuthRole');
+
+        if ($this->params()->fromQuery('role')) {
+            $role = $roleService->getById($this->params()->fromQuery('role'));
+            $user->unlinkRole($role);
+            $userService->persist($user);
+        }
+        return $this->redirect()->toRoute('ctrl_auth/id', array(
+            'controller' => 'role',
+            'id' => $user->getId(),
+        ));
+    }
 }

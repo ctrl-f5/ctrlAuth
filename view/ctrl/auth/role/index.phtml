@@ -1,13 +1,44 @@
 <?php /** @var $this \Ctrl\View\PhpView */ ; ?>
 
-<?php $subtitle = ($user) ? 'by user '.$user->getUsername() : ''; ?>
+<?php $subtitle = ($user) ? 'for user '.$user->getUsername() : ''; ?>
 <?php echo $this->pageTitle('Roles', $subtitle); ?>
+
+<div class="btn-toolbar" style="text-align: right">
+<div class="btn-group">
+<?php
+if ($user) {
+    echo $this->ctrlButton('link', array(
+        'url' => $this->url('ctrl_auth/id', array(
+            'controller' => 'user',
+            'action' => 'add-role',
+            'id' => $user->getId(),
+        )),
+        'value' => 'add role for user',
+    ), 'grant');
+    echo $this->ctrlButton('link', array(
+        'url' => $this->url('ctrl_auth', array(
+            'controller' => 'role',
+        )),
+        'value' => 'show all roles',
+    ));
+}
+echo $this->ctrlButton('link', array(
+    'url' => $this->url('ctrl_auth', array(
+        'controller' => 'user',
+        'action' => 'index',
+    )),
+    'value' => 'view users',
+));
+?>
+</div>
+</div>
 
 <table class="table">
     <thead>
     <tr>
         <th>id</th>
         <th>name</th>
+        <th>system role</th>
         <th>actions</th>
     </tr>
     </thead>
@@ -16,6 +47,7 @@
         <tr>
             <td><?php echo $role->getId(); ?></td>
             <td><?php echo $role->getName(); ?></td>
+            <td><?php if ($role->isSystemRole()) : ?><span class="label label-info">yes</span><?php endif; ?></td>
             <td>
                 <?php echo $this->ctrlButton('link', array(
                     'url' => $this->url('ctrl_auth/id', array(
@@ -33,15 +65,29 @@
                 )),
                 'value' => 'permissions',
                 ), 'info'); ?>
-                <?php echo $this->ctrlButton('link', array(
-                'url' => $this->url('ctrl_auth/id', array(
-                    'controller' => 'role',
-                    'action' => 'delete',
-                    'id' => $role->getId(),
-                )),
-                'value' => 'delete',
-                'confirm' => 'are you sure you want to delete this role?',
-                ), 'danger'); ?>
+                <?php
+                if ($user) {
+                    echo $this->ctrlButton('link', array(
+                        'url' => $this->url('ctrl_auth/id/query', array(
+                            'controller' => 'user',
+                            'action' => 'remove-role',
+                            'id' => $user->getId(),
+                            'role' => $role->getId(),
+                        )),
+                        'value' => 'unlink',
+                        'confirm' => 'are you sure you want to unlink role?',
+                    ), 'warning');
+                } else {
+                    echo $this->ctrlButton('link', array(
+                        'url' => $this->url('ctrl_auth/id', array(
+                            'controller' => 'role',
+                            'action' => 'delete',
+                            'id' => $role->getId(),
+                        )),
+                        'value' => 'delete',
+                        'confirm' => 'are you sure you want to delete this role?',
+                    ), 'danger');
+                } ?>
             </td>
         </tr>
     <?php endforeach; ?>

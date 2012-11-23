@@ -6,8 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 class User extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
 {
-    const COMBINED_ROLE_KEY = 'ctrl_auth_combined';
-
     /**
      * @var string
      */
@@ -88,5 +86,24 @@ class User extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
     public function getRoles()
     {
         return $this->roles;
+    }
+
+    public function linkRole(Role $role)
+    {
+        $this->roles[] = $role;
+        $role->getUsers()->add($this);
+        return $this;
+    }
+
+    public function unlinkRole(Role $role)
+    {
+        $this->roles->removeElement($role);
+        $role->getUsers()->removeElement($this);
+        return $this->roles;
+    }
+
+    public function isGuestUser()
+    {
+        return false;
     }
 }

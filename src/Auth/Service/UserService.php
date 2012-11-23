@@ -113,7 +113,7 @@ class UserService extends \Ctrl\Service\AbstractDomainModelService
     public function getGuestUser()
     {
         if (!$this->guestUser) {
-            $guest = new User();
+            $guest = new \Ctrl\Module\Auth\Domain\GuestUser();
             $guest->setUsername('guest');
             $guest->setServiceLocator($this->getServiceLocator());
             $roleService = $this->getDomainService('CtrlAuthRole');

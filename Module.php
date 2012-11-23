@@ -48,6 +48,7 @@ class Module
         /*
         * Always allow login page
         */
+        $auth->allow($auth->getRoles(), \Ctrl\Module\Auth\Permissions\Resources::RESOURCE_ROUTE_AUTH);
         $auth->allow($auth->getRoles(), \Ctrl\Module\Auth\Permissions\Resources::RESOURCE_ROUTE_LOGIN);
     }
 
@@ -89,16 +90,6 @@ class Module
                                 ),
                             ),
                         ),
-                        'permission/id' => array(
-                            'type'    => 'Segment',
-                            'may_terminate' => true,
-                            'options' => array(
-                                'route'    => '/[:id]',
-                                'constraints' => array(
-                                    'id'   => '[0-9]+',
-                                ),
-                            ),
-                        )
                     )
                 ),
             ),

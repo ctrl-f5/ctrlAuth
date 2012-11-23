@@ -64,7 +64,7 @@ return array(
                 'label' => 'users',
                 'route' => 'ctrl_auth',
                 'type' => 'Ctrl\Navigation\Page\Mvc',
-                'resource' => 'routes.Ctrl\Module\Auth\Controller\User',
+                'resource' => 'routes.Ctrl\Module\Auth\Controller.User',
                 'params' => array(
                     'controller' => 'user'
                 ),
@@ -73,7 +73,7 @@ return array(
                 'label' => 'roles',
                 'route' => 'ctrl_auth',
                 'type' => 'Ctrl\Navigation\Page\Mvc',
-                'resource' => 'routes.Ctrl\Module\Auth\Controller\Role',
+                'resource' => 'routes.Ctrl\Module\Auth\Controller.Role',
                 'params' => array(
                     'controller' => 'role'
                 ),
@@ -82,7 +82,7 @@ return array(
                         'label' => 'permissions',
                         'route' => 'ctrl_auth/id',
                         'type' => 'Ctrl\Navigation\Page\Mvc',
-                        'resource' => 'routes.Ctrl\Module\Auth\Controller\Permission',
+                        'resource' => 'routes.Ctrl\Module\Auth\Controller.Permission',
                         'params' => array(
                             'controller' => 'permission'
                         ),

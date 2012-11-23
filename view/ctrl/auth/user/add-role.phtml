@@ -1,0 +1,59 @@
+<?php /** @var $this \Ctrl\View\PhpView */ ; ?>
+
+<?php $subtitle = ($user) ? 'for user '.$user->getUsername() : ''; ?>
+<?php echo $this->pageTitle('Roles', $subtitle); ?>
+
+<div class="btn-toolbar" style="text-align: right">
+<div class="btn-group">
+<?php
+echo $this->ctrlButton('link', array(
+    'url' => $this->url('ctrl_auth/id', array(
+        'controller' => 'role',
+        'action' => 'index',
+        'id' => $user->getId(),
+    )),
+    'value' => 'back to users\'s roles',
+));
+?>
+<?php
+echo $this->ctrlButton('link', array(
+    'url' => $this->url('ctrl_auth', array(
+        'controller' => 'user',
+        'action' => 'index',
+    )),
+    'value' => 'view all users',
+));
+?>
+</div>
+</div>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>system role</th>
+        <th>actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($roles as $role): ?>
+        <tr>
+            <td><?php echo $role->getId(); ?></td>
+            <td><?php echo $role->getName(); ?></td>
+            <td><?php if ($role->isSystemRole()) : ?><span class="label label-info">yes</span><?php endif; ?></td>
+            <td>
+                <?php echo $this->ctrlButton('link', array(
+                'url' => $this->url('ctrl_auth/id/query', array(
+                    'controller' => 'user',
+                    'action' => 'add-role',
+                    'id' => $user->getId(),
+                    'role' => $role->getId(),
+                )),
+                'value' => 'link',
+                ), 'primary'); ?>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>

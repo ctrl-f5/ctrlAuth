@@ -13,7 +13,11 @@
         <field name="password"      column="password"   type="string" length="255" nullable="false" unique="false" />
         <field name="email"         column="email"      type="string" length="255" nullable="false" unique="false" />
 
-        <many-to-many field="roles" target-entity="Ctrl\Module\Auth\Domain\Role" mapped-by="users" />
+        <many-to-many field="roles" target-entity="Ctrl\Module\Auth\Domain\Role" mapped-by="users">
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+        </many-to-many>
 
     </entity>
 </doctrine-mapping>

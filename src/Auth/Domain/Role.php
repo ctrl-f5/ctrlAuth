@@ -18,12 +18,18 @@ class Role extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
     protected $users;
 
     /**
+     * @var bool
+     */
+    protected $systemRole;
+
+    /**
      * @var Permission[]|Collection
      */
     protected $permissions;
 
     public function __construct()
     {
+        $this->users = new Collection();
         $this->permissions = new Collection();
     }
 
@@ -41,6 +47,22 @@ class Role extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @param bool $systemUser
+     */
+    public function setIsSystemRole($systemUser)
+    {
+        $this->systemRole = (bool)$systemUser;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSystemRole()
+    {
+        return $this->systemRole;
     }
 
     /**
@@ -68,7 +90,7 @@ class Role extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
     }
 
     /**
-     * @return \Ctrl\Module\Auth\Domain\User
+     * @return \Ctrl\Module\Auth\Domain\User[]|Collection
      */
     public function getUsers()
     {
@@ -130,4 +152,5 @@ class Role extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
     {
         return $this->getName();
     }
+
 }

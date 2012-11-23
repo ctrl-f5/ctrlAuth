@@ -49,7 +49,11 @@ class DispatchListener implements
     {
         $routeParams = $e->getRouteMatch()->getParams();
 
-        //build resource name
+        // build resource names
+        $moduleResource = implode('.', array(
+            \Ctrl\Permissions\Resources::SET_ROUTES,
+            $routeParams['__NAMESPACE__'],
+        ));
         $controllerResource = implode('.', array(
             \Ctrl\Permissions\Resources::SET_ROUTES,
             $routeParams['controller'],
@@ -66,8 +70,17 @@ class DispatchListener implements
         $acl = $serviceManager->get('CtrlAuthAcl');
         $user = $authService->getAuthenticatedUser();
 
-        return;
-        if (($acl->hasResource($actionResource) && !$user->hasAccessTo($actionResource)) || !$user->hasAccessTo($controllerResource)) {
+        $resource = $actionResource;
+        if (!$user->hasAccessTo($resource)) {
+            $resource = $controllerResource;
+            if (!$acl->hasResource($resource)) {
+                $resource = $moduleResource;
+                if (!$acl->hasResource($resource)) {
+                    $resource = false;
+                }
+            }
+        }
+        if (!$resource || !$user->hasAccessTo($resource)) {
             $e->setError('access denied');
             /** @var $viewManager \Zend\Mvc\View\Http\ViewManager */
             $viewManager = $serviceManager->get('ViewManager');
