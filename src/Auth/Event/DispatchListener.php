@@ -69,7 +69,6 @@ class DispatchListener implements
         /** @var $acl \Ctrl\Permissions\Acl */
         $acl = $serviceManager->get('CtrlAuthAcl');
         $user = $authService->getAuthenticatedUser();
-
         $resource = $actionResource;
         if (!$user->hasAccessTo($resource)) {
             $resource = $controllerResource;

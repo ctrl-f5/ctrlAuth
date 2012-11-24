@@ -44,8 +44,12 @@ class RoleService extends \Ctrl\Service\AbstractDomainModelService
     public function getGuestRoles()
     {
         $roleService = $this->getDomainService('CtrlAuthRole');
-        return array(
-            $roleService->getById(1),
-        );
+        try {
+            return array(
+                $roleService->getById(1),
+            );
+        } catch (\Exception $e) {
+            return array();
+        }
     }
 }

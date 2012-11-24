@@ -18,7 +18,7 @@ INSERT INTO  `ctrl_auth_resource` (`id`, `resource`)VALUES
 (5 , 'routes.Ctrl\\Module\\Auth\\Controller.Role'),
 (6 , 'routes.Ctrl\\Module\\Auth\\Controller.Permission');
 
-INSERT INTO  `ctrl_blog`.`ctrl_auth_permission` (`id` , `role_id` , `resource_id` , `isAllowed`) VALUES
+INSERT INTO  `ctrl_auth_permission` (`id` , `role_id` , `resource_id` , `isAllowed`) VALUES
 (NULL, '2',  '1',  '1'),
 (NULL, '2',  '2',  '1'),
 (NULL, '2',  '3',  '1'),

@@ -65,6 +65,8 @@ class User extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
 
     public function hasAccessTo($resource)
     {
+        if (!$this->getServiceLocator()) return false;
+
         /** @var $auth \Ctrl\Permissions\Acl */
         $auth = $this->getServiceLocator()->get('CtrlAuthAcl');
         if ($auth->hasResource($resource)) {
