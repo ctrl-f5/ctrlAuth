@@ -62,14 +62,13 @@ class DispatchListener implements
             $controllerResource,
             $routeParams['action'],
         ));
-        
+
         $serviceManager = $e->getApplication()->getServiceManager();
         /** @var $authService \Ctrl\Module\Auth\Service\UserService */
         $authService = $serviceManager->get('DomainServiceLoader')->get('CtrlAuthUser');
         /** @var $acl \Ctrl\Permissions\Acl */
         $acl = $serviceManager->get('CtrlAuthAcl');
         $user = $authService->getAuthenticatedUser();
-        var_dump($user->isGuestUser());
         $resource = $actionResource;
         if (!$user->hasAccessTo($resource)) {
             $resource = $controllerResource;
