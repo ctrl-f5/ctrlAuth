@@ -60,6 +60,17 @@ return array(
                 'params' => array(
                     'controller' => 'user'
                 ),
+                'pages' => array(
+                    array(
+                        'label' => 'login',
+                        'route' => 'ctrl_auth',
+                        'type' => 'Ctrl\Navigation\Page\Mvc',
+                        'resource' => 'routes.Ctrl\Module\Auth\Controller\Login',
+                        'params' => array(
+                            'controller' => 'login',
+                        ),
+                    ),
+                ),
             ),
             array(
                 'label' => 'roles',
