@@ -62,7 +62,7 @@ class DispatchListener implements
             $controllerResource,
             $routeParams['action'],
         ));
-        var_dump($routeParams, $moduleResource, $controllerResource, $actionResource);
+        
         $serviceManager = $e->getApplication()->getServiceManager();
         /** @var $authService \Ctrl\Module\Auth\Service\UserService */
         $authService = $serviceManager->get('DomainServiceLoader')->get('CtrlAuthUser');
