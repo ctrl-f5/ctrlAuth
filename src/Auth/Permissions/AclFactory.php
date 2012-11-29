@@ -1,0 +1,30 @@
+<?php
+
+namespace Ctrl\Module\Auth\Permissions;
+
+use Ctrl\Permissions\AclFactory as BaseFactory;
+use Zend\ServiceManager\FactoryInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
+
+class AclFactory extends BaseFactory
+{
+    const DEFAULT_CLASS_ACL = 'Ctrl\Permissions\Acl';
+
+    public function createService(ServiceLocatorInterface $serviceManager)
+    {
+        $acl = parent::createService($serviceManager);
+
+        /*
+         * fetch roles and their permissions
+         */
+        $roleService = $serviceManager->get('DomainServiceLoader')->get('CtrlAuthRole');
+        $acl->addRoles($roleService->getAll());
+        /*
+        * Always allow login page
+        */
+        $acl->allow($acl->getRoles(), \Ctrl\Module\Auth\Permissions\Resources::RESOURCE_ROUTE_AUTH);
+        $acl->allow($acl->getRoles(), \Ctrl\Module\Auth\Permissions\Resources::RESOURCE_ROUTE_LOGIN);
+
+        return $acl;
+    }
+}

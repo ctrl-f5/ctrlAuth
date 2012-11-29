@@ -38,7 +38,7 @@ class Edit extends \Ctrl\Form\Form
         return $filter;
     }
 
-    public function loadModel(\Ctrl\Module\Auth\Domain\Role $role)
+    public function loadModel(\Ctrl\Domain\Model $role)
     {
         $this->elements[self::ELEM_NAME]->setValue($role->getName());
         if ($role->isSystemRole()) {

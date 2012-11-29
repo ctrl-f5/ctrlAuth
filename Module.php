@@ -45,8 +45,11 @@ class Module
         return array(
             'factories' => array(
                 'CtrlAuthNavigation' => 'Ctrl\Module\Auth\Navigation\AuthNavigationFactory',
-                'CtrlAuthAcl' => 'Ctrl\Permissions\AclFactory',
+                'CtrlAuthAcl' => 'Ctrl\Module\Auth\Permissions\AclFactory',
             ),
+            'aliases' => array(
+                'Acl' => 'CtrlAuthAcl'
+            )
         );
     }
 
