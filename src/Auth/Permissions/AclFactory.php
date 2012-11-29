@@ -8,8 +8,6 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class AclFactory extends BaseFactory
 {
-    const DEFAULT_CLASS_ACL = 'Ctrl\Permissions\Acl';
-
     public function createService(ServiceLocatorInterface $serviceManager)
     {
         $acl = parent::createService($serviceManager);
