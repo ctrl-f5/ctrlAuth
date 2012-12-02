@@ -24,7 +24,7 @@ class Module
     {
         return array_merge(
             $this->getRouterConfig(),
-            include __DIR__ . '/config/module.config.php'
+            include __DIR__ . '/../../config/module.config.php'
         );
 
     }
