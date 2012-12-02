@@ -41,7 +41,7 @@ return array(
             'auth_driver' => array(
             'class' => 'Doctrine\ORM\Mapping\Driver\XmlDriver',
                 'cache' => 'array',
-                'paths' => array(__DIR__.'/../src/Auth/Domain', __DIR__.'/entities')
+                'paths' => array(__DIR__.'/../src/CtrlAuth/Domain', __DIR__.'/entities')
             ),
             'orm_default' => array(
                 'drivers' => array(
