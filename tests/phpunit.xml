@@ -1,0 +1,13 @@
+<phpunit colors="true" bootstrap="./bootstrap.php"
+         verbose="true"
+         debug="true"
+         backupGlobals="false"
+         processIsolation="false"
+         stopOnFailure="false"
+         syntaxCheck="true">
+    <testsuites>
+        <testsuite name="ctrlAuth testsuite">
+            <directory>./phpunit</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
