@@ -1,5 +1,5 @@
 {
-    "hash": "f8913aff7d8fa9063739f1dfd59d5519",
+    "hash": "20e980c27423fc524d54956750cb42ae",
     "packages": [
         {
             "name": "ctrl-f5/ctrllib",
@@ -7,7 +7,7 @@
             "source": {
                 "type": "git",
                 "url": "http://github.com/ctrl-f5/ctrllib",
-                "reference": "a1d8b653aa8b35928dfd7265328b1119b4fd9832"
+                "reference": "f3682c53adcb2188395bc695b006642e9c675b9a"
             },
             "require": {
                 "php": ">=5.3.3",
@@ -27,7 +27,7 @@
                 "doctrine/doctrine-orm-module": "dev-master",
                 "doctrine/doctrine-module": "dev-master"
             },
-            "time": "1354394879",
+            "time": "2012-12-02 15:48:11",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -62,7 +62,7 @@
             "require": {
                 "php": ">=5.3.2"
             },
-            "time": "1353613273",
+            "time": "2012-11-22 19:41:13",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -75,6 +75,7 @@
                     "Doctrine\\Common\\": "lib/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -139,6 +140,7 @@
                     "Doctrine\\Common\\DataFixtures": "lib/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -173,7 +175,7 @@
                 "php": ">=5.3.2",
                 "doctrine/common": ">=2.3-dev,<2.5-dev"
             },
-            "time": "1354311197",
+            "time": "2012-11-30 21:33:17",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -186,6 +188,7 @@
                     "Doctrine\\DBAL\\": "lib/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -239,7 +242,7 @@
                 "zendframework/zendframework": "2.*",
                 "doctrine/data-fixtures": "1.*"
             },
-            "time": "1354326906",
+            "time": "2012-12-01 01:55:06",
             "bin": [
                 "bin/doctrine-module"
             ],
@@ -255,6 +258,7 @@
                     "DoctrineModule\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -321,7 +325,7 @@
             "suggest": {
                 "zendframework/zend-developer-tools": "zend-developer-tools if you want to profile operations executed by the ORM during development"
             },
-            "time": "1354216336",
+            "time": "2012-11-29 19:12:16",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -335,6 +339,7 @@
                     "DoctrineORMModuleTest\\": "tests/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -402,6 +407,7 @@
                     "Doctrine\\DBAL\\Migrations": "lib"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "LGPL"
             ],
@@ -446,7 +452,7 @@
             "suggest": {
                 "symfony/yaml": "If you want to use YAML Metadata Mapping Driver"
             },
-            "time": "1354308229",
+            "time": "2012-11-30 20:43:49",
             "bin": [
                 "bin/doctrine",
                 "bin/doctrine.php"
@@ -463,6 +469,7 @@
                     "Doctrine\\ORM\\": "lib/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -511,7 +518,7 @@
             "require": {
                 "php": ">=5.3.3"
             },
-            "time": "1353329932",
+            "time": "2012-11-19 12:58:52",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -524,6 +531,7 @@
                     "Symfony\\Component\\Console\\": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -546,12 +554,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/zendframework/zf2.git",
-                "reference": "c34e65aca73902b311a374b2f4a0a1d4ee9bf792"
+                "reference": "296ac017875da970d315b69c898a7154a4980802"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://github.com/zendframework/zf2/zipball/master",
-                "reference": "c34e65aca73902b311a374b2f4a0a1d4ee9bf792",
+                "reference": null,
                 "shasum": null
             },
             "require": {
@@ -643,7 +651,7 @@
                 "issues": "https://github.com/zendframework/zf2/issues",
                 "source": "https://github.com/zendframework/zf2"
             },
-            "time": "1343248155"
+            "time": "2012-11-20 21:21:49"
         }
     ],
     "packages-dev": null,
