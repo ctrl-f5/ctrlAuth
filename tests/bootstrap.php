@@ -10,9 +10,9 @@ if (!file_exists('test.config.php')) {
 $autoload = __DIR__.'/../vendor/autoload.php';
 
 if (file_exists($autoload)) {
+    /** @var $loader \Composer\Autoload\ClassLoader */
     $loader = include $autoload;
     $loader->add('CtrlTest', __DIR__.'/../vendor/ctrl-f5/ctrllib/tests/phpunit/');
-    $loader->add('CtrlAuthTest', __DIR__.'/phpunit/');
 } else {
     throw new RuntimeException('vendor/autoload.php could not be found. Did you run `php composer.phar install`?');
 }

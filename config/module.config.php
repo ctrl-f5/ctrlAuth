@@ -1,23 +1,23 @@
 <?php
 
-namespace Ctrl\Module\Auth;
+namespace CtrlAuth;
 
 return array(
     'controllers' => array(
         'invokables' => array(
-            'Ctrl\Module\Auth\Controller\Index' => 'Ctrl\Module\Auth\Controller\IndexController',
-            'Ctrl\Module\Auth\Controller\Login' => 'Ctrl\Module\Auth\Controller\LoginController',
-            'Ctrl\Module\Auth\Controller\User' => 'Ctrl\Module\Auth\Controller\UserController',
-            'Ctrl\Module\Auth\Controller\Role' => 'Ctrl\Module\Auth\Controller\RoleController',
-            'Ctrl\Module\Auth\Controller\Permission' => 'Ctrl\Module\Auth\Controller\PermissionController',
+            'CtrlAuth\Controller\Index' => 'CtrlAuth\Controller\IndexController',
+            'CtrlAuth\Controller\Login' => 'CtrlAuth\Controller\LoginController',
+            'CtrlAuth\Controller\User' => 'CtrlAuth\Controller\UserController',
+            'CtrlAuth\Controller\Role' => 'CtrlAuth\Controller\RoleController',
+            'CtrlAuth\Controller\Permission' => 'CtrlAuth\Controller\PermissionController',
         ),
     ),
     'domain_services' => array(
         'invokables' => array(
-            'CtrlAuthUser' => 'Ctrl\Module\Auth\Service\UserService',
-            'CtrlAuthRole' => 'Ctrl\Module\Auth\Service\RoleService',
-            'CtrlAuthPermission' => 'Ctrl\Module\Auth\Service\PermissionService',
-            'CtrlAuthResource' => 'Ctrl\Module\Auth\Service\ResourceService',
+            'CtrlAuthUser' => 'CtrlAuth\Service\UserService',
+            'CtrlAuthRole' => 'CtrlAuth\Service\RoleService',
+            'CtrlAuthPermission' => 'CtrlAuth\Service\PermissionService',
+            'CtrlAuthResource' => 'CtrlAuth\Service\ResourceService',
         ),
     ),
     'view_manager' => array(
@@ -33,7 +33,7 @@ return array(
     ),
     'acl' => array(
         'resources' => array(
-            'AuthResources' => 'Ctrl\Module\Auth\Permissions\Resources'
+            'AuthResources' => 'CtrlAuth\Permissions\Resources'
         )
     ),
     'doctrine' => array(
@@ -45,7 +45,7 @@ return array(
             ),
             'orm_default' => array(
                 'drivers' => array(
-                    'Ctrl\Module\Auth\Domain' => 'auth_driver'
+                    'CtrlAuth\Domain' => 'auth_driver'
                 )
             )
         ),
@@ -56,7 +56,7 @@ return array(
                 'label' => 'users',
                 'route' => 'ctrl_auth',
                 'type' => 'Ctrl\Navigation\Page\Mvc',
-                'resource' => 'routes.Ctrl\Module\Auth\Controller\User',
+                'resource' => 'routes.CtrlAuth\Controller\User',
                 'params' => array(
                     'controller' => 'user'
                 ),
@@ -65,7 +65,7 @@ return array(
                         'label' => 'login',
                         'route' => 'ctrl_auth',
                         'type' => 'Ctrl\Navigation\Page\Mvc',
-                        'resource' => 'routes.Ctrl\Module\Auth\Controller\Login',
+                        'resource' => 'routes.CtrlAuth\Controller\Login',
                         'params' => array(
                             'controller' => 'login',
                         ),
@@ -76,7 +76,7 @@ return array(
                 'label' => 'roles',
                 'route' => 'ctrl_auth',
                 'type' => 'Ctrl\Navigation\Page\Mvc',
-                'resource' => 'routes.Ctrl\Module\Auth\Controller\Role',
+                'resource' => 'routes.CtrlAuth\Controller\Role',
                 'params' => array(
                     'controller' => 'role'
                 ),
@@ -85,7 +85,7 @@ return array(
                         'label' => 'permissions',
                         'route' => 'ctrl_auth/id',
                         'type' => 'Ctrl\Navigation\Page\Mvc',
-                        'resource' => 'routes.Ctrl\Module\Auth\Controller\Permission',
+                        'resource' => 'routes.CtrlAuth\Controller\Permission',
                         'params' => array(
                             'controller' => 'permission'
                         ),

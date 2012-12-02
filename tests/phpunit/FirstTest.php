@@ -15,5 +15,6 @@ class FirstTest extends \PHPUnit_Framework_TestCase
     public function testIfAutoloadWorks()
     {
         $this->assertTrue(class_exists('Zend\Version\Version'));
+        $this->assertTrue(class_exists('CtrlAuth\Module'));
     }
 }

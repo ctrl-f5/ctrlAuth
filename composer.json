@@ -11,7 +11,7 @@
     "homepage": "http://ctrl-f5.net/",
     "autoload": {
         "psr-0": {
-            "Ctrl\\Module\\Auth": "src/"
+            "CtrlAuth\\": "src/"
         }
     },
     "repositories": [
@@ -28,6 +28,6 @@
     "require": {
         "php": ">=5.3.3",
         "zendframework/zendframework": "dev-master",
-	"ctrl-f5/ctrllib": "dev-master"
+	    "ctrl-f5/ctrllib": "dev-master"
     }
 }

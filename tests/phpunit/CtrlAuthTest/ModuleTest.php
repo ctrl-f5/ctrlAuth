@@ -26,16 +26,65 @@ class ModuleTest extends ApplicationTestCase
         $this->assertInstanceOf('\Ctrl\View\Helper\Navigation\Navigation', $navHelper);
     }
 
-    public function testCanBuildUrlToRoute()
+    public function testCanBuildUrlToDefaultRoute()
     {
-        return;
-        $module = new \Ctrl\Module\Auth\Module();
+        $module = new \CtrlAuth\Module();
         $serviceManager = $this->getServiceManager($module->getRouterConfig());
         /** @var $router \Zend\Mvc\Router\SimpleRouteStack */
-        $router = $serviceManager->get('router');
+        $factory = new \Zend\Mvc\Service\RouterFactory();
+        $router = $factory->createService($serviceManager);
         $url = $router->assemble(array(), array(
             'name' => 'ctrl_auth'
         ));
-        $this->assertEqual('/auth', $url);
+        $this->assertEquals('/auth', $url);
+    }
+
+    public function testCanBuildUrlToRouteWithController()
+    {
+        $module = new \CtrlAuth\Module();
+        $serviceManager = $this->getServiceManager($module->getRouterConfig());
+        /** @var $router \Zend\Mvc\Router\SimpleRouteStack */
+        $factory = new \Zend\Mvc\Service\RouterFactory();
+        $router = $factory->createService($serviceManager);
+        $url = $router->assemble(array(
+            'controller' => 'role',
+            'action' => 'index',
+        ), array(
+            'name' => 'ctrl_auth'
+        ));
+        $this->assertEquals('/auth/role', $url);
+    }
+
+    public function testCanBuildUrlToRouteWithControllerAndAction()
+    {
+        $module = new \CtrlAuth\Module();
+        $serviceManager = $this->getServiceManager($module->getRouterConfig());
+        /** @var $router \Zend\Mvc\Router\SimpleRouteStack */
+        $factory = new \Zend\Mvc\Service\RouterFactory();
+        $router = $factory->createService($serviceManager);
+        $url = $router->assemble(array(
+            'controller' => 'role',
+            'action' => 'test',
+        ), array(
+            'name' => 'ctrl_auth'
+        ));
+        $this->assertEquals('/auth/role/test', $url);
+    }
+
+    public function testCanBuildUrlToRouteWithControllerAndActionAndId()
+    {
+        $module = new \CtrlAuth\Module();
+        $serviceManager = $this->getServiceManager($module->getRouterConfig());
+        /** @var $router \Zend\Mvc\Router\SimpleRouteStack */
+        $factory = new \Zend\Mvc\Service\RouterFactory();
+        $router = $factory->createService($serviceManager);
+        $url = $router->assemble(array(
+            'controller' => 'role',
+            'action' => 'test',
+            'id' => 1,
+        ), array(
+            'name' => 'ctrl_auth/id'
+        ));
+        $this->assertEquals('/auth/role/test/1', $url);
     }
 }

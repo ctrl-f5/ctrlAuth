@@ -17,7 +17,7 @@ return array(
         'module_paths' => array(
             './vendor',
             'Ctrl' => './vendor/ctrl-f5/ctrllib/',
-            'CtrlAuth' => './vendor/ctrl-f5/ctrlAuth/',
+            'CtrlAuth' => './',
         ),
     ),
     'service_manager' => array(
