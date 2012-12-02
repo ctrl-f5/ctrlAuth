@@ -12,11 +12,11 @@ INSERT INTO `ctrl_auth_user_role` (`role_id`, `user_id`) VALUES
 
 INSERT INTO  `ctrl_auth_resource` (`id`, `resource`)VALUES
 (1 , 'global'),
-(2 , 'routes.Ctrl\\Module\\Auth\\Controller'),
-(3 , 'routes.Ctrl\\Module\\Auth\\Controller\\Login'),
-(4 , 'routes.Ctrl\\Module\\Auth\\Controller\\User'),
-(5 , 'routes.Ctrl\\Module\\Auth\\Controller\\Role'),
-(6 , 'routes.Ctrl\\Module\\Auth\\Controller\\Permission');
+(2 , 'routes.CtrlAuth\\Controller'),
+(3 , 'routes.CtrlAuth\\Controller\\Login'),
+(4 , 'routes.CtrlAuth\\Controller\\User'),
+(5 , 'routes.CtrlAuth\\Controller\\Role'),
+(6 , 'routes.CtrlAuth\\Controller\\Permission');
 
 INSERT INTO  `ctrl_auth_permission` (`id` , `role_id` , `resource_id` , `isAllowed`) VALUES
 (NULL, '2',  '1',  '1'),
