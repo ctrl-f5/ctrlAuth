@@ -53,6 +53,12 @@ return array(
     'navigation' => array(
         'ctrl_auth' => array(
             array(
+                'label' => 'account',
+                'route' => 'ctrl_auth',
+                'type' => 'Ctrl\Navigation\Page\Mvc',
+                'resource' => 'routes.CtrlAuth\Controller',
+            ),
+            array(
                 'label' => 'users',
                 'route' => 'ctrl_auth',
                 'type' => 'Ctrl\Navigation\Page\Mvc',

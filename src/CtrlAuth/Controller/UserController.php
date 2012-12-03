@@ -53,7 +53,7 @@ class UserController extends AbstractController
 
     public function addRoleAction()
     {
-        /** @var $userService \Ctrl\Blog\Service\UserService */
+        /** @var $userService \CtrlAuth\Service\UserService */
         $userService = $this->getDomainService('CtrlAuthUser');
         /** @var $user \CtrlAuth\Domain\User */
         $user = $userService->getById($this->params()->fromRoute('id'));
@@ -81,7 +81,7 @@ class UserController extends AbstractController
 
     public function removeRoleAction()
     {
-        /** @var $userService \Ctrl\Blog\Service\UserService */
+        /** @var $userService \CtrlAuth\Service\UserService */
         $userService = $this->getDomainService('CtrlAuthUser');
         /** @var $user \CtrlAuth\Domain\User */
         $user = $userService->getById($this->params()->fromRoute('id'));
