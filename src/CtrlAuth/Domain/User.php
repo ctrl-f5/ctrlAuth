@@ -7,6 +7,11 @@ use Doctrine\ORM\Mapping as ORM;
 class User extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
 {
     /**
+     * @var bool
+     */
+    protected $systemUser;
+
+    /**
      * @var string
      */
     protected $username;
@@ -107,5 +112,23 @@ class User extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
     public function isGuestUser()
     {
         return false;
+    }
+
+    /**
+     * @param $systemUser
+     * @return User
+     */
+    public function setIsSystemUser($systemUser)
+    {
+        $this->systemUser = (bool)$systemUser;
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isSystemUser()
+    {
+        return $this->systemUser;
     }
 }

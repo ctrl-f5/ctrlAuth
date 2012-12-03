@@ -1,7 +1,7 @@
 SET foreign_key_checks = 0;
 
-INSERT INTO `ctrl_auth_user` (`id`, `username`, `password`, `email`) VALUES
-(1, 'admin', SHA1('admin'), 'example@example.com');
+INSERT INTO `ctrl_auth_user` (`id`, `system`, `username`, `password`, `email`) VALUES
+(1, 1, 'admin', SHA1('admin'), 'example@example.com');
 
 INSERT INTO `ctrl_auth_role` (`id`, `name`, `system`) VALUES
 (1, 'guest', 1),
