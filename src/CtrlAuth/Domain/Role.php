@@ -18,6 +18,16 @@ class Role extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
     protected $users;
 
     /**
+     * @var Role[]
+     */
+    protected $children;
+
+    /**
+     * @var Role[]
+     */
+    protected $parents;
+
+    /**
      * @var bool
      */
     protected $systemRole;
