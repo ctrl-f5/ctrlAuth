@@ -2,6 +2,7 @@
 
 namespace CtrlAuth\Controller;
 
+use CtrlAuth\Domain;
 use Ctrl\Controller\AbstractController;;
 use Zend\View\Model\ViewModel;
 
@@ -13,6 +14,7 @@ class UserController extends AbstractController
         $service = $this->getDomainService('CtrlAuthUser');
         $users = $service->getAll();
 
+        $service->getNewEntity();
         return new ViewModel(array(
             'users' => $users
         ));
@@ -21,10 +23,16 @@ class UserController extends AbstractController
     public function editAction()
     {
         $userService = $this->getDomainService('CtrlAuthUser');
-        $user = $userService->getById($this->params()->fromRoute('id'));
+        /** @var $user User */
+        if ($this->params()->fromRoute('id')) {
+            $user = $userService->getById($this->params()->fromRoute('id'));
+            $form = new \CtrlAuth\Form\User\Edit();
+            $form->loadModel($user);
+        } else {
+            $user = new Domain\User();
+            $form = new \CtrlAuth\Form\User\Add();
+        }
 
-        $form = new \CtrlAuth\Form\User\Edit();
-        $form->loadModel($user);
 
         $form->setAttribute('action', $this->url()->fromRoute('ctrl_auth/id', array(
             'controller' => 'user',
@@ -41,6 +49,48 @@ class UserController extends AbstractController
                 $elems = $form->getElements();
                 $user->setUsername($elems[$form::ELEM_USERNAME]->getValue());
                 $userService->persist($user);
+                return $this->redirect()->toUrl($form->getReturnurl());
+            }
+        }
+
+        return new ViewModel(array(
+            'user' => $user,
+            'form' => $form,
+        ));
+    }
+
+
+    public function addAction()
+    {
+        $userService = $this->getDomainService('CtrlAuthUser');
+        /** @var $user User */
+        $user = new Domain\User();
+        $form = new \CtrlAuth\Form\User\Add();
+
+
+        $form->setAttribute('action', $this->url()->fromRoute('ctrl_auth', array(
+            'controller' => 'user',
+            'action' => 'add'
+        )));
+        $form->setReturnUrl($this->url()->fromRoute('ctrl_auth', array(
+            'controller' => 'user',
+        )));
+
+        if ($this->getRequest()->isPost()) {
+            $form->setData($this->getRequest()->getPost());
+            if ($form->isValid()) {
+                $elems = $form->getElements();
+                $user->setUsername($elems[$form::ELEM_USERNAME]->getValue());
+                $user->setPassword($elems[$form::ELEM_PASSWORD]->getValue());
+                $user->setEmail($elems[$form::ELEM_EMAIL]->getValue());
+                $userService->persist($user);
+                if ($this->params()->fromPost('save-add-roles')) {
+                    return $this->redirect()->toUrl($this->url()->fromRoute('ctrl_auth/id', array(
+                        'controller' => 'user',
+                        'action' => 'add-role',
+                        'id' => $user->getId(),
+                    )));
+                }
                 return $this->redirect()->toUrl($form->getReturnurl());
             }
         }

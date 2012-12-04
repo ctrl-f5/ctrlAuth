@@ -1,11 +1,12 @@
 <?php
 /** @var $this \Ctrl\View\PhpView */
-echo $this->pageTitle($user->getUsername(), 'edit user');
+echo $this->pageTitle('Add new user');
 
-$form->setLabel('Edit');
+$form->setLabel('Please provide some information');
 echo $this->ctrlForm()->createForm(
     $form,
     array(
+        $this->ctrlButton('submit', array('value' => 'save and add roles', 'name' => 'save-add-roles'), 'primary'),
         $this->ctrlButton('submit', array('value' => 'save'), 'primary'),
         $this->ctrlButton('link', array(
             'value' => 'cancel',

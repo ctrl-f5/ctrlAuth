@@ -3,11 +3,10 @@
 <?php $subtitle = ($user) ? 'for user '.$user->getUsername() : ''; ?>
 <?php echo $this->pageTitle('Roles', $subtitle); ?>
 
-<div class="btn-toolbar">
-<div class="btn-group pull-right">
 <?php
+$buttons = array();
 if ($user) {
-    echo $this->ctrlButton('link', array(
+    $buttons[] = $this->ctrlButton('link', array(
         'url' => $this->url('ctrl_auth/id', array(
             'controller' => 'user',
             'action' => 'add-role',
@@ -15,23 +14,24 @@ if ($user) {
         )),
         'value' => 'add role for user',
     ), 'grant');
-    echo $this->ctrlButton('link', array(
+    $buttons[] = $this->ctrlButton('link', array(
         'url' => $this->url('ctrl_auth', array(
             'controller' => 'role',
         )),
         'value' => 'show all roles',
     ));
 }
-echo $this->ctrlButton('link', array(
+$buttons[] = $this->ctrlButton('link', array(
     'url' => $this->url('ctrl_auth', array(
         'controller' => 'user',
         'action' => 'index',
     )),
     'value' => 'view users',
 ));
-?>
-</div>
-</div>
+
+echo $this->buttonBar(array(
+    $this->buttonGroup($buttons, array('pull-right' => true))
+)); ?>
 
 <table class="table">
     <thead>

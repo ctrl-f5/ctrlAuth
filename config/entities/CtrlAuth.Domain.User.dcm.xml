@@ -10,9 +10,9 @@
         </id>
 
         <field name="systemUser"    column="system"     type="boolean" nullable="false" default="0" />
-        <field name="username"      column="username"   type="string" length="255" nullable="false" unique="false" />
+        <field name="username"      column="username"   type="string" length="255" nullable="false" unique="true" />
         <field name="password"      column="password"   type="string" length="255" nullable="false" unique="false" />
-        <field name="email"         column="email"      type="string" length="255" nullable="false" unique="false" />
+        <field name="email"         column="email"      type="string" length="255" nullable="false" unique="true" />
 
         <many-to-many field="roles" target-entity="CtrlAuth\Domain\Role" mapped-by="users">
             <cascade>

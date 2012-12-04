@@ -9,7 +9,7 @@ class User extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
     /**
      * @var bool
      */
-    protected $systemUser;
+    protected $systemUser = false;
 
     /**
      * @var string
@@ -130,5 +130,21 @@ class User extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
     public function isSystemUser()
     {
         return $this->systemUser;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
     }
 }
