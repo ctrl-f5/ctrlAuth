@@ -6,6 +6,7 @@ use \CtrlAuth\Domain;;
 use Doctrine\ORM\Mapping as ORM;
 
 class Role extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
+    implements \Zend\Permissions\Acl\Role\RoleInterface
 {
     /**
      * @var string
@@ -140,6 +141,7 @@ class Role extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
     /**
      * @param $resource
      * @return Resource
+     * @throws \CtrlAuth\Exception
      */
     protected function assertResource($resource)
     {
@@ -158,9 +160,39 @@ class Role extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
         return $resource;
     }
 
+    /**
+     * Defined by RoleInterface; returns the Role identifier
+     *
+     * @return string
+     */
+    public function getRoleId()
+    {
+        return $this->getName();
+    }
+
     public function __toString()
     {
         return $this->getName();
+    }
+
+    public function setChildren($children)
+    {
+        $this->children = $children;
+    }
+
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    public function setParents($parents)
+    {
+        $this->parents = $parents;
+    }
+
+    public function getParents()
+    {
+        return $this->parents;
     }
 
 }

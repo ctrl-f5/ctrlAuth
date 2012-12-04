@@ -16,10 +16,6 @@
     },
     "repositories": [
         {
-            "type": "composer",
-            "url": "http://packages.zendframework.com/"
-        },
-	{
             "type": "git",
             "url": "http://github.com/ctrl-f5/ctrllib"
         }

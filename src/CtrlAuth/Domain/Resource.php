@@ -5,6 +5,7 @@ namespace CtrlAuth\Domain;
 use Doctrine\ORM\Mapping as ORM;
 
 class Resource extends \Ctrl\Domain\PersistableModel
+    implements \Zend\Permissions\Acl\Resource\ResourceInterface
 {
     /**
      * @var string
@@ -55,5 +56,26 @@ class Resource extends \Ctrl\Domain\PersistableModel
     public function getPermissions()
     {
         return $this->permissions;
+    }
+
+    /**
+     * Defined by ResourceInterface; returns the Resource identifier
+     *
+     * @return string
+     */
+    public function getResourceId()
+    {
+        return $this->getName();
+    }
+
+    /**
+     * Defined by ResourceInterface; returns the Resource identifier
+     * Proxies to getResourceId()
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getResourceId();
     }
 }

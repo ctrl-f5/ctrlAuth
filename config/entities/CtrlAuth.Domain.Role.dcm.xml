@@ -18,6 +18,7 @@
             </cascade>
         </one-to-many>
 
+
         <many-to-many field="parents" target-entity="CtrlAuth\Domain\Role" inversed-by="children">
             <cascade>
                 <cascade-all/>
