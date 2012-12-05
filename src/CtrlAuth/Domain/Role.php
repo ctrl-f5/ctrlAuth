@@ -24,7 +24,7 @@ class Role extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
     protected $children;
 
     /**
-     * @var Role[]
+     * @var RoleMap[]
      */
     protected $parents;
 
@@ -180,9 +180,19 @@ class Role extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
         $this->children = $children;
     }
 
-    public function getChildren()
+    public function getChildMaps()
     {
         return $this->children;
+    }
+
+    public function getChildren($roleIds = false)
+    {
+        $children = array();
+        foreach ($this->children as $p) {
+            $children[] = ($roleIds) ? $p->getRole()->getRoleId() : $p->getRole();
+        }
+        ksort($children);
+        return $children;
     }
 
     public function setParents($parents)
@@ -190,9 +200,19 @@ class Role extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
         $this->parents = $parents;
     }
 
-    public function getParents()
+    public function getParentMaps()
     {
         return $this->parents;
+    }
+
+    public function getParents($roleIds = false)
+    {
+        $parents = array();
+        foreach ($this->parents as $p) {
+            $parents[] = ($roleIds) ? $p->getParent()->getRoleId() : $p->getParent();
+        }
+        ksort($parents);
+        return $parents;
     }
 
 }

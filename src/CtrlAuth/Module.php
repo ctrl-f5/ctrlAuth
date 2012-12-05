@@ -14,7 +14,7 @@ class Module
         $serviceManager = $application->getServiceManager();
         /** @var $eventManager \Zend\EventManager\EventManager */
         $eventManager        = $e->getApplication()->getEventManager();
-        $authPredispatch = new \CtrlAuth\Event\DispatchListener();
+        $authPredispatch    = new \CtrlAuth\Event\DispatchListener();
         $authPredispatch->setServiceManager($serviceManager);
         $eventManager->attachAggregate($authPredispatch, 100);
 

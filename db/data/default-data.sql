@@ -5,7 +5,15 @@ INSERT INTO `ctrl_auth_user` (`id`, `system`, `username`, `password`, `email`) V
 
 INSERT INTO `ctrl_auth_role` (`id`, `name`, `system`) VALUES
 (1, 'guest', 1),
-(2, 'superuser', 1);
+(2, 'superuser', 1),
+(3, 'auth-guest', 0),
+(4, 'auth-user', 0),
+(5, 'auth-admin', 0);
+
+INSERT INTO `ctrl_auth_role_map` (`parent_id`, `role_id`, `ordering`) VALUES
+(3, 1, 1),
+(5, 2, 1),
+(1, 2, 2);
 
 INSERT INTO `ctrl_auth_user_role` (`role_id`, `user_id`) VALUES
 ('2', '1');

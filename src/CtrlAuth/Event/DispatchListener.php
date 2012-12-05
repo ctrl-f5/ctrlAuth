@@ -47,6 +47,7 @@ class DispatchListener implements
 
     public function preDispatch(\Zend\Mvc\MvcEvent $e)
     {
+        return;
         $routeParams = $e->getRouteMatch()->getParams();
 
         // build resource names

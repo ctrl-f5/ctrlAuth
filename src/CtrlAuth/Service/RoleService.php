@@ -17,10 +17,25 @@ class RoleService extends \Ctrl\Service\AbstractDomainModelService
             ->setParameter('name', $name)
             ->getResult();
         if (!count($entities)) {
-            //TODO: fix exception
-            throw new \Exception($this->entity.' not found with name: '.$name);
+            throw new Exception($this->entity.' not found with name: '.$name);
         }
         return $entities[0];
+    }
+
+    /**
+     * @return array|Role[]
+     * @throws Exception
+     */
+    public function getRoleTree()
+    {
+        $entities = $this->getEntityManager()
+            ->createQuery('SELECT e FROM '.$this->entity.' e JOIN e.children child WHERE SIZE(e.parents) = :size ORDER BY child.order')
+            ->setParameter('size', 0)
+            ->getResult();
+        if (!count($entities)) {
+            throw new Exception($this->entity.' no root roles found');
+        }
+        return $entities;
     }
 
     public function getAssignableToUser(User $user)

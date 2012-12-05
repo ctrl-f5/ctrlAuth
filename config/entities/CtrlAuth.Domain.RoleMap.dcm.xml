@@ -1,0 +1,30 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                    http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="CtrlAuth\Domain\RoleMap" table="ctrl_auth_role_map">
+
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
+            <sequence-generator sequence-name="autoinc" allocation-size="100" initial-value="1" />
+        </id>
+
+        <unique-constraints>
+            <unique-constraint columns="role_id,parent_id" name="unique_map_idx" />
+        </unique-constraints>
+
+        <field name="order" column="ordering" type="integer" default="0" />
+
+        <many-to-one field="parent" target-entity="CtrlAuth\Domain\Role" inversed-by="parents">
+            <join-column name="parent_id" referenced-column-name="id" />
+        </many-to-one>
+
+        <many-to-one field="role" target-entity="CtrlAuth\Domain\Role" inversed-by="children">
+            <!--<cascade>-->
+            <!--<cascade-persist/>-->
+            <!--</cascade>-->
+            <join-column name="role_id" referenced-column-name="id" />
+        </many-to-one>
+
+    </entity>
+</doctrine-mapping>
