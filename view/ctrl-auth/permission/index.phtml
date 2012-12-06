@@ -3,7 +3,8 @@
 <?php echo $this->pageTitle($role->getName(), 'Permissions'); ?>
 
 <?php
-//var_dump(null, $auth->getResourceTree());
+//foreach ($role->getParents() as $p) { var_dump($p->getName()); }
+//var_dump($auth->dumpRoleRegistry()->roles['auth-admin']['children']);
 ?>
 
 <table class="table">
@@ -38,20 +39,20 @@
                         }
                     }
                     if ($parent == '*') {
-                        $parent == '_self_';
+                        $parent = '_self_';
                     }
                 }
             }
             ?>
         <tr>
-            <td><?php if ($depth) echo '|'.implode('', array_fill(0, $depth, '____')).' '; echo $current; ?></td>
+            <td><?php if ($depth) echo '|'.implode('', array_fill(0, $depth, '____')).' '; ?><?php echo $current; ?></td>
             <td>
                 <span class="label <?php echo ($state == 'inherit') ? '' : (
                 ($state == 'allow') ? 'label-success' : 'label-important'
             ); ?>"><?php echo $state; ?></span>
             </td>
             <td>
-                <?php if ($state == 'inherit') : ?>
+                <?php if ($state == 'inherit' && $parent !== '_self_') : ?>
                 <span class="label <?php echo ($inheritedState == 'allow') ? 'label-success' : 'label-important'; ?>"> <?php echo $parent; ?> </span>
                 <?php endif; ?>
             </td>

@@ -2,7 +2,6 @@
 
 namespace CtrlAuth\Domain;
 
-use \CtrlAuth\Domain;;
 use Doctrine\ORM\Mapping as ORM;
 
 class Role extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
@@ -199,6 +198,10 @@ class Role extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
         return $this->children;
     }
 
+    /**
+     * @param bool $roleIds
+     * @return array|Role[]
+     */
     public function getChildren($roleIds = false)
     {
         $children = array();

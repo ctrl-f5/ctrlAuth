@@ -16,17 +16,16 @@ class AclFactory extends BaseFactory
         /** @var $acl Acl */
         $acl = parent::createService($serviceManager);
 
+        // add roles
         /** @var $roleService RoleService */
         $roleService = $serviceManager->get('DomainServiceLoader')->get('CtrlAuthRole');
         /** @var $roles Role[] */
         $roles = $roleService->getAll();
-        $roles = $this->addRoleMap($acl, $roles);
+        $this->addRoleMap($acl, $roles);
 
-        /*
-        * Always allow login page
-        */
-        //$acl->allow($acl->getRoles(), \CtrlAuth\Permissions\Resources::RESOURCE_ROUTE_AUTH);
-        //$acl->allow($acl->getRoles(), \CtrlAuth\Permissions\Resources::RESOURCE_ROUTE_LOGIN);
+
+        // set permissions
+        $this->assertPermissions($acl, $roles);
 
         return $acl;
     }
@@ -48,6 +47,21 @@ class AclFactory extends BaseFactory
                 }
             }
             $acl->addRole($role, $parents);
+        }
+    }
+
+    /**
+     * @param \Ctrl\Permissions\Acl $acl
+     * @param array|Role[] $roles
+     */
+    protected function assertPermissions(Acl $acl, $roles)
+    {
+        foreach ($roles as $r) {
+            foreach ($r->getPermissions() as $p) {
+                if ($p->isAllowed()) {
+                    $acl->allow($r, $p->getResource()->getResourceId());
+                }
+            }
         }
     }
 }

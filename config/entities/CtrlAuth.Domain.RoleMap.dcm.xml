@@ -15,11 +15,11 @@
 
         <field name="order" column="ordering" type="integer" default="0" />
 
-        <many-to-one field="parent" target-entity="CtrlAuth\Domain\Role" inversed-by="parents">
+        <many-to-one field="parent" target-entity="CtrlAuth\Domain\Role" inversed-by="children">
             <join-column name="parent_id" referenced-column-name="id" />
         </many-to-one>
 
-        <many-to-one field="role" target-entity="CtrlAuth\Domain\Role" inversed-by="children">
+        <many-to-one field="role" target-entity="CtrlAuth\Domain\Role" inversed-by="parents">
             <!--<cascade>-->
             <!--<cascade-persist/>-->
             <!--</cascade>-->
