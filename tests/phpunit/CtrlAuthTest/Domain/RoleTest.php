@@ -91,7 +91,7 @@ class RoleTest extends DbTestCase
         $acl->addRole('blog');
         $acl->addRole('blog-viewer', array('blog'));
         $acl->addRole('blog-editor', array('blog'));
-        $acl->addRole('blog-admin', array('blog-viewer', 'blog-editor', 'blog'));
+        $acl->addRole('blog-admin', array('blog', 'blog-editor', 'blog-viewer'));
         $acl->addRole('blog-admin-sysadmin', array('blog', 'blog-admin'));
         // auth roles
         $acl->addRole('auth');
@@ -178,6 +178,16 @@ class RoleTest extends DbTestCase
 
         $this->assertTrue($this->acl->isAllowed('blog-viewer', 'act-1-1'));
         $this->assertTrue($this->acl->isAllowed('blog-admin', 'act-1-1'));
+        $this->assertTrue($this->acl->isAllowed('blog-admin-sysadmin', 'act-1-1'));
+    }
+
+    public function testInheritParentsParents()
+    {
+        $this->createResourceActionTree($this->acl);
+        $this->createRoleTree($this->acl);
+
+        $this->acl->allow('blog-viewer', 'act-1-1');
+
         $this->assertTrue($this->acl->isAllowed('blog-admin-sysadmin', 'act-1-1'));
     }
 }

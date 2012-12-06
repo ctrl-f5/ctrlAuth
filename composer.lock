@@ -7,7 +7,7 @@
             "source": {
                 "type": "git",
                 "url": "http://github.com/ctrl-f5/ctrllib",
-                "reference": "9330253df160667f9e2df655b1fd4a2c5e866180"
+                "reference": "3e7d2256cdcc7c52dc55a487f00613530d0205f1"
             },
             "require": {
                 "php": ">=5.3.3",
@@ -27,7 +27,7 @@
                 "doctrine/doctrine-orm-module": "dev-master",
                 "doctrine/doctrine-module": "dev-master"
             },
-            "time": "2012-12-04 19:47:23",
+            "time": "2012-12-05 03:27:56",
             "type": "library",
             "installation-source": "source",
             "autoload": {
