@@ -8,7 +8,7 @@
 $buttons = array();
 if ($user) {
     $buttons[] = $this->ctrlButton('link', array(
-        'url' => $this->url('ctrl_auth/id', array(
+        'url' => $this->url('ctrl_auth/default/id', array(
             'controller' => 'user',
             'action' => 'add-role',
             'id' => $user->getId(),
@@ -16,14 +16,14 @@ if ($user) {
         'value' => 'add role for user',
     ), 'grant');
     $buttons[] = $this->ctrlButton('link', array(
-        'url' => $this->url('ctrl_auth', array(
+        'url' => $this->url('ctrl_auth/default', array(
             'controller' => 'role',
         )),
         'value' => 'show all roles',
     ));
 }
 $buttons[] = $this->ctrlButton('link', array(
-    'url' => $this->url('ctrl_auth', array(
+    'url' => $this->url('ctrl_auth/default', array(
         'controller' => 'user',
         'action' => 'index',
     )),
@@ -50,15 +50,13 @@ echo $this->buttonBar(array(
     $getButtons = function ($role) use ($user, $view) {
         $buttons = array();
         $buttons[] = $view->ctrlButton('link', array(
-            'url' => $view->url('ctrl_auth/id', array(
-                'controller' => 'role',
-                'action' => 'edit',
-                'id' => $role->getId(),
+            'url' => $view->url('ctrl_auth/role_edit', array(
+                'role' => $role->getId(),
             )),
             'value' => 'edit',
         ));
         $buttons[] = $view->ctrlButton('link', array(
-            'url' => $view->url('ctrl_auth/id', array(
+            'url' => $view->url('ctrl_auth/default/id', array(
                 'controller' => 'permission',
                 'action' => 'index',
                 'id' => $role->getId(),
@@ -67,7 +65,7 @@ echo $this->buttonBar(array(
         ), 'info');
         if ($user) {
             $buttons[] = $view->ctrlButton('link', array(
-                'url' => $view->url('ctrl_auth/id/query', array(
+                'url' => $view->url('ctrl_auth/default/id/query', array(
                     'controller' => 'user',
                     'action' => 'remove-role',
                     'id' => $user->getId(),
@@ -78,7 +76,7 @@ echo $this->buttonBar(array(
             ), 'warning');
         } else {
             $buttons[] = $view->ctrlButton('link', array(
-                'url' => $view->url('ctrl_auth/id', array(
+                'url' => $view->url('ctrl_auth/default/id', array(
                     'controller' => 'role',
                     'action' => 'delete',
                     'id' => $role->getId(),

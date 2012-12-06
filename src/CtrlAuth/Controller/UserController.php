@@ -34,12 +34,12 @@ class UserController extends AbstractController
         }
 
 
-        $form->setAttribute('action', $this->url()->fromRoute('ctrl_auth/id', array(
+        $form->setAttribute('action', $this->url()->fromRoute('ctrl_auth/default/id', array(
             'controller' => 'user',
             'action' => 'edit',
             'id' => $user->getId()
         )));
-        $form->setReturnUrl($this->url()->fromRoute('ctrl_auth', array(
+        $form->setReturnUrl($this->url()->fromRoute('ctrl_auth/default', array(
             'controller' => 'user',
         )));
 
@@ -68,11 +68,11 @@ class UserController extends AbstractController
         $form = new \CtrlAuth\Form\User\Add();
 
 
-        $form->setAttribute('action', $this->url()->fromRoute('ctrl_auth', array(
+        $form->setAttribute('action', $this->url()->fromRoute('ctrl_auth/default', array(
             'controller' => 'user',
             'action' => 'add'
         )));
-        $form->setReturnUrl($this->url()->fromRoute('ctrl_auth', array(
+        $form->setReturnUrl($this->url()->fromRoute('ctrl_auth/default', array(
             'controller' => 'user',
         )));
 
@@ -85,7 +85,7 @@ class UserController extends AbstractController
                 $user->setEmail($elems[$form::ELEM_EMAIL]->getValue());
                 $userService->persist($user);
                 if ($this->params()->fromPost('save-add-roles')) {
-                    return $this->redirect()->toUrl($this->url()->fromRoute('ctrl_auth/id', array(
+                    return $this->redirect()->toUrl($this->url()->fromRoute('ctrl_auth/default/id', array(
                         'controller' => 'user',
                         'action' => 'add-role',
                         'id' => $user->getId(),
@@ -115,7 +115,7 @@ class UserController extends AbstractController
             $role = $roleService->getById($this->params()->fromQuery('role'));
             $user->linkRole($role);
             $userService->persist($user);
-            return $this->redirect()->toRoute('ctrl_auth/id', array(
+            return $this->redirect()->toRoute('ctrl_auth/default/id', array(
                 'controller' => 'role',
                 'id' => $user->getId(),
             ));
@@ -143,7 +143,7 @@ class UserController extends AbstractController
             $user->unlinkRole($role);
             $userService->persist($user);
         }
-        return $this->redirect()->toRoute('ctrl_auth/id', array(
+        return $this->redirect()->toRoute('ctrl_auth/default/id', array(
             'controller' => 'role',
             'id' => $user->getId(),
         ));

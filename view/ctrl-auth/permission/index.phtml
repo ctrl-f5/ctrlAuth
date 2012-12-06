@@ -1,50 +1,65 @@
 <?php /** @var $auth \Ctrl\Permissions\Acl */ ?>
-<?php echo $this->pageTitle($role->getName(), 'role permissions'); ?>
+<?php /** @var $role \CtrlAuth\Domain\Role */ ?>
+<?php echo $this->pageTitle($role->getName(), 'Permissions'); ?>
 
 <?php
-//var_dump($auth->getResourceSets());
+//var_dump(null, $auth->getResourceTree());
 ?>
 
 <table class="table">
+    <thead>
+    <tr>
+        <th>permissions</th>
+        <th>current value</th>
+        <th>parent value</th>
+    </tr>
+    </thead>
     <tbody>
-    <?php foreach ($auth->getResourceSets() as $set): ?>
-        <tr>
-            <th colspan="4"><?php echo $set; ?></th>
-        </tr>
-        <?php foreach ($auth->getResources() as $resource): ?>
-            <?php if (strpos($resource, $set) === false) continue; ?>
-            <?php $allowed = ($auth->hasResource($resource) && $auth->hasRole($role->getName()) && $auth->isAllowed($role->getName(), $resource)) ? true: false ?>
-            <tr>
-                <td><label class="icon icon-chevron-right"></label></td>
-                <td><?php echo $resource; ?></td>
-                <td><span class="label label-<?php echo ($allowed) ? 'success': 'important'; ?>"><?php echo ($allowed) ? 'allow': 'deny'; ?></span></td>
-                <td>
-                    <?php
-                    if ($allowed) {
-                        echo $this->ctrlButton('link', array(
-                            'url' => $this->url('ctrl_auth/permission', array(
-                                'controller' => 'permission',
-                                'action' => 'deny-role',
-                                'role' => $role->getId(),
-                                'resource' => $resource,
-                            )),
-                            'value' => 'revoke',
-                        ), 'info');
-                    } else {
-                        echo $this->ctrlButton('link', array(
-                            'url' => $this->url('ctrl_auth/permission', array(
-                                'controller' => 'permission',
-                                'action' => 'allow-role',
-                                'role' => $role->getId(),
-                                'resource' => $resource,
-                            )),
-                            'value' => 'grant',
-                        ), 'warning');
+
+    <?php
+
+    $generateRows = function ($tree, $depth = 0, $parents = array()) use (&$generateRows, $auth, $role) {
+        /** @var $role \CtrlAuth\Domain\Role */
+        $nextDepth = $depth+1;
+        foreach ($tree as $current => $children):
+            $path = $parents;
+            $path[] = $current;
+            $resourceName = $auth->getResourceNameFromPath($path);
+            $state = (!$role->hasPermissionForResource($resourceName)) ? 'inherit' : (
+                ($auth->isAllowed($role, $resourceName)) ? 'allow' : 'deny'
+            );
+            if ($state == 'inherit') {
+                $inheritedState = ($auth->isAllowed($role, $resourceName)) ? 'allow' : 'deny';
+                $parent = '*';
+                if ($auth->isAllowed($role, $resourceName)) {
+                    foreach ($role->getParents() as $p) {
+                        if ($auth->isAllowed($p, $resourceName)) {
+                            $parent = $p->getName();
+                        }
                     }
-                    ?>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-    <?php endforeach; ?>
+                    if ($parent == '*') {
+                        $parent == '_self_';
+                    }
+                }
+            }
+            ?>
+        <tr>
+            <td><?php if ($depth) echo '|'.implode('', array_fill(0, $depth, '____')).' '; echo $current; ?></td>
+            <td>
+                <span class="label <?php echo ($state == 'inherit') ? '' : (
+                ($state == 'allow') ? 'label-success' : 'label-important'
+            ); ?>"><?php echo $state; ?></span>
+            </td>
+            <td>
+                <?php if ($state == 'inherit') : ?>
+                <span class="label <?php echo ($inheritedState == 'allow') ? 'label-success' : 'label-important'; ?>"> <?php echo $parent; ?> </span>
+                <?php endif; ?>
+            </td>
+        </tr>
+            <?php $generateRows($children, $nextDepth, $path); ?>
+            <?php endforeach;
+    };
+    $generateRows($auth->getResourceTree());
+    ?>
     </tbody>
 </table>

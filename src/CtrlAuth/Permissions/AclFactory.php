@@ -25,8 +25,8 @@ class AclFactory extends BaseFactory
         /*
         * Always allow login page
         */
-        $acl->allow($acl->getRoles(), \CtrlAuth\Permissions\Resources::RESOURCE_ROUTE_AUTH);
-        $acl->allow($acl->getRoles(), \CtrlAuth\Permissions\Resources::RESOURCE_ROUTE_LOGIN);
+        //$acl->allow($acl->getRoles(), \CtrlAuth\Permissions\Resources::RESOURCE_ROUTE_AUTH);
+        //$acl->allow($acl->getRoles(), \CtrlAuth\Permissions\Resources::RESOURCE_ROUTE_LOGIN);
 
         return $acl;
     }

@@ -1,0 +1,15 @@
+<?php
+/** @var $this \Ctrl\View\PhpView */
+echo $this->pageTitle($role->getName(), 'edit role');
+?>
+<div class="tabbable tabs-left">
+    <ul class="nav nav-tabs">
+        <?php foreach ($pages as $page) : ?>
+            <li class="<?php if ($page['slug'] == $activeTab) echo 'active'; ?>"><a href="<?php echo $page['url']; ?>"><?php echo $page['label']; ?></a></li>
+        <?php endforeach; ?>
+        <li><br /><br /></li>
+    </ul>
+    <div class="tab-content">
+        <?php echo $this->pageContent; ?>
+    </div>
+</div>

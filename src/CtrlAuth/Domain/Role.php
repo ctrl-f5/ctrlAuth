@@ -122,6 +122,10 @@ class Role extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
         $permission->setAllowed(false);
     }
 
+    /**
+     * @param $resource
+     * @return Permission
+     */
     public function getPermissionForResource($resource)
     {
         $resource = $this->assertResource($resource);
@@ -136,6 +140,16 @@ class Role extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
         $permission = new Permission($this, $resource);
         $this->permissions[] = $permission;
         return $permission;
+    }
+
+    public function hasPermissionForResource($resource)
+    {
+        foreach ($this->permissions as $p) {
+            if ($p->getResource()->getName() == $resource) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -205,11 +219,15 @@ class Role extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
         return $this->parents;
     }
 
+    /**
+     * @param bool $roleIds
+     * @return array|Role[]
+     */
     public function getParents($roleIds = false)
     {
         $parents = array();
         foreach ($this->parents as $p) {
-            $parents[] = ($roleIds) ? $p->getParent()->getRoleId() : $p->getParent();
+            $parents[$p->getOrder()] = ($roleIds) ? $p->getParent()->getRoleId() : $p->getParent();
         }
         ksort($parents);
         return $parents;
