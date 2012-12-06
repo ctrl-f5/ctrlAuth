@@ -24,7 +24,7 @@ class Role extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
     protected $children;
 
     /**
-     * @var Role[]
+     * @var RoleMap[]
      */
     protected $parents;
 
@@ -122,6 +122,10 @@ class Role extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
         $permission->setAllowed(false);
     }
 
+    /**
+     * @param $resource
+     * @return Permission
+     */
     public function getPermissionForResource($resource)
     {
         $resource = $this->assertResource($resource);
@@ -136,6 +140,16 @@ class Role extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
         $permission = new Permission($this, $resource);
         $this->permissions[] = $permission;
         return $permission;
+    }
+
+    public function hasPermissionForResource($resource)
+    {
+        foreach ($this->permissions as $p) {
+            if ($p->getResource()->getName() == $resource) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -180,9 +194,19 @@ class Role extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
         $this->children = $children;
     }
 
-    public function getChildren()
+    public function getChildMaps()
     {
         return $this->children;
+    }
+
+    public function getChildren($roleIds = false)
+    {
+        $children = array();
+        foreach ($this->children as $p) {
+            $children[] = ($roleIds) ? $p->getRole()->getRoleId() : $p->getRole();
+        }
+        ksort($children);
+        return $children;
     }
 
     public function setParents($parents)
@@ -190,9 +214,23 @@ class Role extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
         $this->parents = $parents;
     }
 
-    public function getParents()
+    public function getParentMaps()
     {
         return $this->parents;
+    }
+
+    /**
+     * @param bool $roleIds
+     * @return array|Role[]
+     */
+    public function getParents($roleIds = false)
+    {
+        $parents = array();
+        foreach ($this->parents as $p) {
+            $parents[$p->getOrder()] = ($roleIds) ? $p->getParent()->getRoleId() : $p->getParent();
+        }
+        ksort($parents);
+        return $parents;
     }
 
 }

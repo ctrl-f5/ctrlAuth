@@ -13,7 +13,7 @@ class LoginController extends AbstractController
         $service = $this->getDomainService('CtrlAuthUser');
         $form = $service->getLoginForm();
 
-        $form->setAttribute('action', $this->url()->fromRoute('ctrl_auth', array(
+        $form->setAttribute('action', $this->url()->fromRoute('ctrl_auth/default', array(
             'controller' => 'login',
             'action' => 'index',
         )));
@@ -26,7 +26,7 @@ class LoginController extends AbstractController
                     $elems[$form::ELEM_USERNAME]->getValue(),
                     $elems[$form::ELEM_PASSWORD]->getValue()
                 );
-                return $this->redirect()->toRoute('ctrl_auth');
+                return $this->redirect()->toRoute('ctrl_auth/default');
             }
         }
 
@@ -41,6 +41,6 @@ class LoginController extends AbstractController
         $service = $this->getDomainService('CtrlAuthUser');
         $service->resetAuthentication();
 
-        return $this->redirect()->toRoute('ctrl_auth');
+        return $this->redirect()->toRoute('ctrl_auth/default');
     }
 }

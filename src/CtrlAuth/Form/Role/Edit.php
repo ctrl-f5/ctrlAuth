@@ -32,7 +32,7 @@ class Edit extends \Ctrl\Form\Form
         $filter = new InputFilter();
         $filter->add($factory->createInput(array(
             'name'     => self::ELEM_NAME,
-            'required' => true,
+            'required' => false,
         )));
 
         return $filter;
@@ -42,7 +42,7 @@ class Edit extends \Ctrl\Form\Form
     {
         $this->elements[self::ELEM_NAME]->setValue($role->getName());
         if ($role->isSystemRole()) {
-            $this->elements[self::ELEM_NAME]->setAttribute('disabled', 'disabled');
+            //$this->elements[self::ELEM_NAME]->setAttribute('disabled', 'disabled');
         }
     }
 }

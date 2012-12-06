@@ -7,7 +7,7 @@
 <div class="btn-group">
 <?php
 echo $this->ctrlButton('link', array(
-    'url' => $this->url('ctrl_auth/id', array(
+    'url' => $this->url('ctrl_auth/default/id', array(
         'controller' => 'role',
         'action' => 'index',
         'id' => $user->getId(),
@@ -17,7 +17,7 @@ echo $this->ctrlButton('link', array(
 ?>
 <?php
 echo $this->ctrlButton('link', array(
-    'url' => $this->url('ctrl_auth', array(
+    'url' => $this->url('ctrl_auth/default', array(
         'controller' => 'user',
         'action' => 'index',
     )),
@@ -44,7 +44,7 @@ echo $this->ctrlButton('link', array(
             <td><?php if ($role->isSystemRole()) : ?><span class="label label-info">yes</span><?php endif; ?></td>
             <td>
                 <?php echo $this->ctrlButton('link', array(
-                'url' => $this->url('ctrl_auth/id/query', array(
+                'url' => $this->url('ctrl_auth/default/id/query', array(
                     'controller' => 'user',
                     'action' => 'add-role',
                     'id' => $user->getId(),

@@ -7,7 +7,7 @@ class Resources extends \Ctrl\Permissions\Resources
     /**
      * Sets
      */
-    const SET_ACTIONS = 'Ctrl.Module.Auth.actions';
+    const SET_ACTIONS = 'CtrlAuth.actions';
 
     /**
      * Actions
@@ -15,7 +15,7 @@ class Resources extends \Ctrl\Permissions\Resources
     const ACTION_USER_REMOVE = 'User.remove';
 
     const RESOURCE_ROUTE_AUTH = 'routes.CtrlAuth\Controller';
-    const RESOURCE_ROUTE_LOGIN = 'routes.CtrlAuth\Controller\Login';
+    const RESOURCE_ROUTE_LOGIN = 'routes.CtrlAuth\Controller.Login';
 
     public function getSets()
     {
@@ -33,8 +33,9 @@ class Resources extends \Ctrl\Permissions\Resources
             parent::getResources(),
             array(
                 self::SET_ROUTES => array(
-                    'CtrlAuth\Controller',
-                    'CtrlAuth\Controller\Login',
+                    'CtrlAuth\Controller' => array(
+                        'Login',
+                    ),
                 ),
                 self::SET_ACTIONS => array(
                     self::ACTION_USER_REMOVE,
@@ -42,12 +43,8 @@ class Resources extends \Ctrl\Permissions\Resources
             )
         );
 
-        if ($set) {
-            if (isset($set, $resources)) {
-                return $this->flattenResourceArray($resources[$set], $set);
-            }
-            return array();
-        }
-        return $set;
+        $resources = $this->assertResources($resources);
+
+        return $resources;
     }
 }

@@ -54,13 +54,13 @@ return array(
         'ctrl_auth' => array(
             array(
                 'label' => 'account',
-                'route' => 'ctrl_auth',
+                'route' => 'ctrl_auth/default',
                 'type' => 'Ctrl\Navigation\Page\Mvc',
                 'resource' => 'routes.CtrlAuth\Controller',
             ),
             array(
                 'label' => 'users',
-                'route' => 'ctrl_auth',
+                'route' => 'ctrl_auth/default',
                 'type' => 'Ctrl\Navigation\Page\Mvc',
                 'resource' => 'routes.CtrlAuth\Controller\User',
                 'params' => array(
@@ -69,7 +69,7 @@ return array(
                 'pages' => array(
                     array(
                         'label' => 'login',
-                        'route' => 'ctrl_auth',
+                        'route' => 'ctrl_auth/default',
                         'type' => 'Ctrl\Navigation\Page\Mvc',
                         'resource' => 'routes.CtrlAuth\Controller\Login',
                         'params' => array(
@@ -80,7 +80,7 @@ return array(
             ),
             array(
                 'label' => 'roles',
-                'route' => 'ctrl_auth',
+                'route' => 'ctrl_auth/default',
                 'type' => 'Ctrl\Navigation\Page\Mvc',
                 'resource' => 'routes.CtrlAuth\Controller\Role',
                 'params' => array(
@@ -89,7 +89,7 @@ return array(
                 'pages' => array(
                     array(
                         'label' => 'permissions',
-                        'route' => 'ctrl_auth/id',
+                        'route' => 'ctrl_auth/default/id',
                         'type' => 'Ctrl\Navigation\Page\Mvc',
                         'resource' => 'routes.CtrlAuth\Controller\Permission',
                         'params' => array(

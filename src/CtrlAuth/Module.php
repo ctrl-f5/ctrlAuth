@@ -14,10 +14,9 @@ class Module
         $serviceManager = $application->getServiceManager();
         /** @var $eventManager \Zend\EventManager\EventManager */
         $eventManager        = $e->getApplication()->getEventManager();
-        $authPredispatch = new \CtrlAuth\Event\DispatchListener();
+        $authPredispatch    = new \CtrlAuth\Event\DispatchListener();
         $authPredispatch->setServiceManager($serviceManager);
         $eventManager->attachAggregate($authPredispatch, 100);
-
     }
 
     public function getConfig()
@@ -61,6 +60,30 @@ class Module
                     'CtrlAuth\Controller',
                     '/auth',
                     array(
+                        'role_edit' => array(
+                            'type'    => 'Segment',
+                            'may_terminate' => true,
+                            'options' => array(
+                                'route'    => '/role/edit/[:role][/:slug]',
+                                'constraints' => array(
+                                    'role'   => '[0-9]+',
+                                    'controller'   => 'Role',
+                                    'action'   => 'edit-tabs',
+                                ),
+                                'defaults' => array(
+                                    'controller' => 'Role',
+                                    'action' => 'edit-tabs',
+                                    'slug' => 'default',
+                                )
+                            ),
+                            'child_routes' => array(
+                                'query' => array(
+                                    'type'    => 'Query',
+                                    'may_terminate' => true,
+                                ),
+                            ),
+
+                        ),
                         'permission' => array(
                             'type'    => 'Segment',
                             'may_terminate' => true,

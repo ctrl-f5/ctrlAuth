@@ -6,14 +6,14 @@
 <?php echo $this->buttonBar(array(
     $this->buttonGroup(array(
         $this->ctrlButton('link', array(
-            'url' => $this->url('ctrl_auth', array(
+            'url' => $this->url('ctrl_auth/default', array(
                 'controller' => 'user',
                 'action' => 'add',
             )),
             'value' => 'add user',
         ), 'primary'),
         $this->ctrlButton('link', array(
-            'url' => $this->url('ctrl_auth', array(
+            'url' => $this->url('ctrl_auth/default', array(
                 'controller' => 'role',
             )),
             'value' => 'view roles',
@@ -38,7 +38,7 @@
             <td><?php if ($user->isSystemUser()) : ?><span class="label label-info">yes</span><?php endif; ?></td>
             <td>
                 <?php echo $this->ctrlButton('link', array(
-                    'url' => $this->url('ctrl_auth/id', array(
+                    'url' => $this->url('ctrl_auth/default/id', array(
                         'controller' => 'user',
                         'action' => 'edit',
                         'id' => $user->getId(),
@@ -46,7 +46,7 @@
                     'value' => 'edit',
                 )); ?>
                 <?php echo $this->ctrlButton('link', array(
-                'url' => $this->url('ctrl_auth/id', array(
+                'url' => $this->url('ctrl_auth/default/id', array(
                     'controller' => 'role',
                     'action' => 'index',
                     'id' => $user->getId(),
@@ -55,7 +55,7 @@
                 ), 'info'); ?>
                 <? if (!$user->getPassword()): ?>
                     <?php echo $this->ctrlButton('link', array(
-                    'url' => $this->url('ctrl_auth/id', array(
+                    'url' => $this->url('ctrl_auth/default/id', array(
                         'controller' => 'user',
                         'action' => 'delete',
                         'id' => $user->getId(),

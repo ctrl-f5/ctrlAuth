@@ -2,21 +2,21 @@
 
 <?php if ($user->isGuestUser()): ?>
     <?php echo $this->ctrlButton('link', array(
-        'href' => $this->url('ctrl_auth', array('controller' => 'login')),
+        'href' => $this->url('ctrl_auth/default', array('controller' => 'login')),
         'value' => 'Log in',
     ), 'primary'); ?>
 <?php else: ?>
     <p>Welcome, <?php echo $user->getUsername(); ?></p>
     <p>
         <?php echo $this->ctrlButton('link', array(
-            'href' => $this->url('ctrl_auth/id', array(
+            'href' => $this->url('ctrl_auth/default/id', array(
                 'controller' => 'permission',
                 'id' => $user->getRoles()->last()->getId(),
             )),
             'value' => 'Permissions',
         ), 'info'); ?>
         <?php echo $this->ctrlButton('link', array(
-            'href' => $this->url('ctrl_auth', array(
+            'href' => $this->url('ctrl_auth/default', array(
                 'controller' => 'login',
                 'action' => 'logout',
             )),

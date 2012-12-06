@@ -1,4 +1,5 @@
 <?php /** @var $this \Ctrl\View\PhpView */ ; ?>
+<?php /** @var $roles \CtrlAuth\Domain\Role[] */ ; ?>
 
 <?php $subtitle = ($user) ? 'for user '.$user->getUsername() : ''; ?>
 <?php echo $this->pageTitle('Roles', $subtitle); ?>
@@ -7,7 +8,7 @@
 $buttons = array();
 if ($user) {
     $buttons[] = $this->ctrlButton('link', array(
-        'url' => $this->url('ctrl_auth/id', array(
+        'url' => $this->url('ctrl_auth/default/id', array(
             'controller' => 'user',
             'action' => 'add-role',
             'id' => $user->getId(),
@@ -15,14 +16,14 @@ if ($user) {
         'value' => 'add role for user',
     ), 'grant');
     $buttons[] = $this->ctrlButton('link', array(
-        'url' => $this->url('ctrl_auth', array(
+        'url' => $this->url('ctrl_auth/default', array(
             'controller' => 'role',
         )),
         'value' => 'show all roles',
     ));
 }
 $buttons[] = $this->ctrlButton('link', array(
-    'url' => $this->url('ctrl_auth', array(
+    'url' => $this->url('ctrl_auth/default', array(
         'controller' => 'user',
         'action' => 'index',
     )),
@@ -43,53 +44,66 @@ echo $this->buttonBar(array(
     </tr>
     </thead>
     <tbody>
-    <?php foreach ($this->roles as $role): ?>
-        <tr>
-            <td><?php echo $role->getId(); ?></td>
-            <td><?php echo $role->getName(); ?></td>
-            <td><?php if ($role->isSystemRole()) : ?><span class="label label-info">yes</span><?php endif; ?></td>
-            <td>
-                <?php echo $this->ctrlButton('link', array(
-                    'url' => $this->url('ctrl_auth/id', array(
-                        'controller' => 'role',
-                        'action' => 'edit',
-                        'id' => $role->getId(),
-                    )),
-                    'value' => 'edit',
-                )); ?>
-                <?php echo $this->ctrlButton('link', array(
-                'url' => $this->url('ctrl_auth/id', array(
-                    'controller' => 'permission',
-                    'action' => 'index',
+    <?php
+
+    $view = $this;
+    $getButtons = function ($role) use ($user, $view) {
+        $buttons = array();
+        $buttons[] = $view->ctrlButton('link', array(
+            'url' => $view->url('ctrl_auth/role_edit', array(
+                'role' => $role->getId(),
+            )),
+            'value' => 'edit',
+        ));
+        $buttons[] = $view->ctrlButton('link', array(
+            'url' => $view->url('ctrl_auth/default/id', array(
+                'controller' => 'permission',
+                'action' => 'index',
+                'id' => $role->getId(),
+            )),
+            'value' => 'permissions',
+        ), 'info');
+        if ($user) {
+            $buttons[] = $view->ctrlButton('link', array(
+                'url' => $view->url('ctrl_auth/default/id/query', array(
+                    'controller' => 'user',
+                    'action' => 'remove-role',
+                    'id' => $user->getId(),
+                    'role' => $role->getId(),
+                )),
+                'value' => 'unlink',
+                'confirm' => 'are you sure you want to unlink role?',
+            ), 'warning');
+        } else {
+            $buttons[] = $view->ctrlButton('link', array(
+                'url' => $view->url('ctrl_auth/default/id', array(
+                    'controller' => 'role',
+                    'action' => 'delete',
                     'id' => $role->getId(),
                 )),
-                'value' => 'permissions',
-                ), 'info'); ?>
-                <?php
-                if ($user) {
-                    echo $this->ctrlButton('link', array(
-                        'url' => $this->url('ctrl_auth/id/query', array(
-                            'controller' => 'user',
-                            'action' => 'remove-role',
-                            'id' => $user->getId(),
-                            'role' => $role->getId(),
-                        )),
-                        'value' => 'unlink',
-                        'confirm' => 'are you sure you want to unlink role?',
-                    ), 'warning');
-                } else {
-                    echo $this->ctrlButton('link', array(
-                        'url' => $this->url('ctrl_auth/id', array(
-                            'controller' => 'role',
-                            'action' => 'delete',
-                            'id' => $role->getId(),
-                        )),
-                        'value' => 'delete',
-                        'confirm' => 'are you sure you want to delete this role?',
-                    ), 'danger');
-                } ?>
-            </td>
-        </tr>
-    <?php endforeach; ?>
+                'value' => 'delete',
+                'confirm' => 'are you sure you want to delete this role?',
+            ), 'danger');
+        }
+        return implode(PHP_EOL, $buttons);
+    };
+    $generateRows = function ($roles, $depth = 0, $root = null) use (&$generateRows, $getButtons) {
+        $nextDepth = $depth+1;
+        foreach ($roles as $role):
+            if ($root == null && count($role->getChildren())) continue;
+            if ($root == $role->getRoleId()) return; ?>
+            <tr>
+                <td><?php echo $role->getId(); ?></td>
+                <td><?php if ($depth) echo implode('', array_fill(0, $depth, '== ')).'> '; echo $role->getName().count($role->getParentMaps()); ?></td>
+                <td><?php if ($role->isSystemRole()) : ?><span class="label label-info">yes</span><?php endif; ?></td>
+                <td>
+                    <?php echo $getButtons($role) ?>
+                </td>
+            </tr>
+            <?php $generateRows($role->getParents(), $nextDepth, $role->getRoleId()); ?>
+        <?php endforeach;
+    };
+    $generateRows($roles);
+    ?>
     </tbody>
 </table>

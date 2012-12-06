@@ -1,7 +1,5 @@
 <?php
 /** @var $this \Ctrl\View\PhpView */
-echo $this->pageTitle($role->getName(), 'edit role');
-
 $form->setLabel('Change the role name');
 echo $this->ctrlForm()->createForm(
     $form,
@@ -9,7 +7,7 @@ echo $this->ctrlForm()->createForm(
         $this->ctrlButton('submit', array('value' => 'save'), 'primary'),
         $this->ctrlButton('link', array(
             'value' => 'cancel',
-            'url' => $this->url('ctrl_auth', array(
+            'url' => $this->url('ctrl_auth/default', array(
                 'controller' => 'role',
             )),
         )),
