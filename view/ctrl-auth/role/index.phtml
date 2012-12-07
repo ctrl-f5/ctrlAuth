@@ -37,9 +37,9 @@ echo $this->buttonBar(array(
 <table class="table">
     <thead>
     <tr>
-        <th>id</th>
         <th>name</th>
         <th>system role</th>
+        <th>move</th>
         <th>actions</th>
     </tr>
     </thead>
@@ -74,33 +74,41 @@ echo $this->buttonBar(array(
                 'value' => 'unlink',
                 'confirm' => 'are you sure you want to unlink role?',
             ), 'warning');
-        } else {
-            $buttons[] = $view->ctrlButton('link', array(
-                'url' => $view->url('ctrl_auth/default/id', array(
-                    'controller' => 'role',
-                    'action' => 'delete',
-                    'id' => $role->getId(),
-                )),
-                'value' => 'delete',
-                'confirm' => 'are you sure you want to delete this role?',
-            ), 'danger');
         }
         return implode(PHP_EOL, $buttons);
     };
-    $generateRows = function ($roles, $depth = 0, $root = null) use (&$generateRows, $getButtons) {
+    $generateRows = function ($roles, $depth = 0, $root = null) use (&$generateRows, $getButtons, $view) {
         $nextDepth = $depth+1;
+        $firstInDepth = true;
+        $lastInDepth = ($depth) ? count($roles) : 0;
         foreach ($roles as $role):
+            $lastInDepth--;
             if ($root == null && count($role->getChildren())) continue;
             if ($root == $role->getRoleId()) return; ?>
             <tr>
-                <td><?php echo $role->getId(); ?></td>
-                <td><?php if ($depth) echo implode('', array_fill(0, $depth, '== ')).'> '; echo $role->getName().count($role->getParentMaps()); ?></td>
+                <?php if ($depth): ?>
+                <td class="no-border"><span class="tree-spacer"><?php if ($depth) echo '|'.implode('', array_fill(0, $depth, '____')).' '; ?></span><?php echo $role->getName(); ?></td>
+                <?php else : ?>
+                <td><?php echo $role->getName(); ?></td>
+                <?php endif; ?>
                 <td><?php if ($role->isSystemRole()) : ?><span class="label label-info">yes</span><?php endif; ?></td>
+                <td>
+                    <?php
+                        $buttons = array();
+                        if ($lastInDepth > 0) $buttons[] = $view->ctrlButton('link', array('value' => '<i class="icon-chevron-down"></i>', 'url' => '#'));
+                        else $buttons[] = $view->ctrlButton('link', array('value' => '<i class="icon-minus"></i>', 'url' => '#'));
+                        if (!$firstInDepth > 0) $buttons[] = $view->ctrlButton('link', array('value' => '<i class="icon-chevron-up"></i>', 'url' => '#'));
+                        else $buttons[] = $view->ctrlButton('link', array('value' => '<i class="icon-minus"></i>', 'url' => '#'));
+                        echo $view->buttonGroup($buttons);
+                    ?>
+                </td>
                 <td>
                     <?php echo $getButtons($role) ?>
                 </td>
             </tr>
+            <?php $firstInDepth = false; ?>
             <?php $generateRows($role->getParents(), $nextDepth, $role->getRoleId()); ?>
+
         <?php endforeach;
     };
     $generateRows($roles);
