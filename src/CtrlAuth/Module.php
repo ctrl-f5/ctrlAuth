@@ -84,13 +84,17 @@ class Module
                             ),
 
                         ),
-                        'permission' => array(
+                        'role_perm' => array(
                             'type'    => 'Segment',
                             'may_terminate' => true,
                             'options' => array(
-                                'route'    => '/[:role]/[:resource]',
+                                'route'    => '/role/permission/[:task]/[:role]/[:resource]',
                                 'constraints' => array(
                                     'role'   => '[0-9]+',
+                                ),
+                                'defaults' => array(
+                                    'controller'   => 'Permission',
+                                    'action' => 'change-permission',
                                 ),
                             ),
                         ),

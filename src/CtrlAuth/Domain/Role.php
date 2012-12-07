@@ -112,6 +112,7 @@ class Role extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
         $resource = $this->assertResource($resource);
         $permission = $this->getPermissionForResource($resource);
         $permission->setAllowed(true);
+        return $this;
     }
 
     public function denyResource($resource)
@@ -119,6 +120,21 @@ class Role extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
         $resource = $this->assertResource($resource);
         $permission = $this->getPermissionForResource($resource);
         $permission->setAllowed(false);
+        return $this;
+    }
+
+    public function inheritResource($resource)
+    {
+        $resource = $this->assertResource($resource);
+        if ($this->hasPermissionForResource($resource)) {
+            foreach ($this->permissions as $k => $per) {
+                if ($per->getResource()->getResourceId() == $resource) {
+                    unset($this->permissions[$k]);
+                    $this->getServiceLocator()->get('EntityManager')->remove($per);
+                    return $this;
+                }
+            }
+        }
     }
 
     /**
@@ -162,7 +178,7 @@ class Role extends \Ctrl\Domain\PersistableServiceLocatorAwareModel
         if (is_string($resource)) {
             $res = $resourceService->getByName($resource);
             if (!$res) {
-                $res = new Domain\Resource($resource);
+                $res = new Resource($resource);
                 $resourceService->persist($res);
             }
             $resource = $res;

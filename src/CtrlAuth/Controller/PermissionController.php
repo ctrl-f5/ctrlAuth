@@ -39,32 +39,31 @@ class PermissionController extends AbstractController
         ));
     }
 
-    public function allowRoleAction()
+    public function changePermissionAction()
     {
         $roleService = $this->getDomainService('CtrlAuthRole');
         /** @var $role Role */
         $role = $roleService->getById($this->params()->fromRoute('role'));
-        $premissionService = $this->getDomainService('CtrlAuthPermission');
-        $role->allowResource($this->params()->fromRoute('resource'));
+        $resource = $this->params()->fromRoute('resource');
+
+        switch ($this->params()->fromRoute('task')) {
+            case 'allow':
+                $role->allowResource($resource);
+                break;
+            case 'deny':
+                $role->denyResource($resource);
+                break;
+            case 'inherit':
+                $role->inheritResource($resource);
+                break;
+            default:
+                throw new \CtrlAuth\Exception('invalid action provided');
+                break;
+        }
+
         $roleService->persist($role);
 
-        return $this->redirect()->toRoute('ctrl_auth/id', array(
-            'controller' => 'permission',
-            'action' => 'index',
-            'id' => $role->getId(),
-        ));
-    }
-
-    public function denyRoleAction()
-    {
-        $roleService = $this->getDomainService('CtrlAuthRole');
-        /** @var $role Role */
-        $role = $roleService->getById($this->params()->fromRoute('role'));
-        $premissionService = $this->getDomainService('CtrlAuthPermission');
-        $role->denyResource($this->params()->fromRoute('resource'));
-        $roleService->persist($role);
-
-        return $this->redirect()->toRoute('ctrl_auth/id', array(
+        return $this->redirect()->toRoute('ctrl_auth/default/id', array(
             'controller' => 'permission',
             'action' => 'index',
             'id' => $role->getId(),

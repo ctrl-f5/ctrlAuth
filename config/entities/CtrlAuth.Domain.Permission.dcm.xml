@@ -12,6 +12,9 @@
         <field name="isAllowed" column="isAllowed" type="boolean" default="0" />
 
         <many-to-one field="role" target-entity="CtrlAuth\Domain\Role" inversed-by="permissions">
+            <cascade>
+                <cascade-all/>
+            </cascade>
             <join-column name="role_id" referenced-column-name="id" />
         </many-to-one>
 

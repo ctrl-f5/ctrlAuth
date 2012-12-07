@@ -2,9 +2,10 @@
 
 namespace CtrlAuth\Controller;
 
-use Ctrl\Controller\AbstractController;;
 use Zend\View\Model\ViewModel;
+use Ctrl\Controller\AbstractController;;
 use CtrlAuth\View\Model\RoleEditView;
+use CtrlAuth\Domain\Role;
 
 class RoleController extends AbstractController
 {
