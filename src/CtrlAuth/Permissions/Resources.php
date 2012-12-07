@@ -7,7 +7,7 @@ class Resources extends \Ctrl\Permissions\Resources
     /**
      * Sets
      */
-    const SET_ACTIONS = 'CtrlAuth.actions';
+    const SET_ACTIONS = 'actions.CtrlAuth';
 
     /**
      * Actions
