@@ -215,4 +215,30 @@ class RoleController extends AbstractController
             $event->setParam('result', $view);
         }
     }
+
+    public function moveParentAction()
+    {
+        $roleService = $this->getDomainService('CtrlAuthRole');
+        /** @var $role Role */
+        $role = $roleService->getById($this->params()->fromRoute('id'));
+
+        $pm = false;
+        foreach ($role->getParentMaps() as $pmap) {
+            if ($this->params()->fromQuery('parent') == $pmap->getParent()->getId()) {
+                $pm = $pmap;
+            }
+        }
+        $newMaps = new \CtrlAuth\Domain\Collection($role->getParentMaps()->toArray());
+        $newMaps->moveOrderInCollection(
+            $pm->getId(),
+            $this->params()->fromQuery('direction')
+        );
+
+        $role->setParents($newMaps);
+        $roleService->persist($role);
+
+        return $this->redirect()->toRoute('ctrl_auth/default', array(
+            'controller' => 'role',
+        ));
+    }
 }

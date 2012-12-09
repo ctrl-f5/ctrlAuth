@@ -77,14 +77,15 @@ echo $this->buttonBar(array(
         }
         return implode(PHP_EOL, $buttons);
     };
-    $generateRows = function ($roles, $depth = 0, $root = null) use (&$generateRows, $getButtons, $view) {
+    $generateRows = function ($roles, $depth = 0, $current = null) use (&$generateRows, $getButtons, $view) {
         $nextDepth = $depth+1;
         $firstInDepth = true;
-        $lastInDepth = ($depth) ? count($roles) : 0;
+        $countInDepth = ($depth) ? count($roles) : 0;
+        $singleChild = $firstInDepth && $countInDepth <= 1;
         foreach ($roles as $role):
-            $lastInDepth--;
-            if ($root == null && count($role->getChildren())) continue;
-            if ($root == $role->getRoleId()) return; ?>
+            $countInDepth--;
+            if ($current == null && count($role->getChildren())) continue;
+            if ($current != null && $current->getRoleId() == $role->getRoleId()) return; ?>
             <tr>
                 <?php if ($depth): ?>
                 <td class="no-border"><span class="tree-spacer"><?php if ($depth) echo '|'.implode('', array_fill(0, $depth, '____')).' '; ?></span><?php echo $role->getName(); ?></td>
@@ -94,12 +95,26 @@ echo $this->buttonBar(array(
                 <td><?php if ($role->isSystemRole()) : ?><span class="label label-info">yes</span><?php endif; ?></td>
                 <td>
                     <?php
-                        $buttons = array();
-                        if ($lastInDepth > 0) $buttons[] = $view->ctrlButton('link', array('value' => '<i class="icon-chevron-down"></i>', 'url' => '#'));
-                        else $buttons[] = $view->ctrlButton('link', array('value' => '<i class="icon-minus"></i>', 'url' => '#'));
-                        if (!$firstInDepth > 0) $buttons[] = $view->ctrlButton('link', array('value' => '<i class="icon-chevron-up"></i>', 'url' => '#'));
-                        else $buttons[] = $view->ctrlButton('link', array('value' => '<i class="icon-minus"></i>', 'url' => '#'));
-                        echo $view->buttonGroup($buttons);
+                        if ($depth && !$singleChild) {
+                            $buttons = array();
+                            if ($countInDepth > 0) $buttons[] = $view->ctrlButton('link', array('value' => '<i class="icon-chevron-down"></i>', 'url' => $view->url('ctrl_auth/default/id/query', array(
+                                'controller' => 'role',
+                                'action' => 'move-parent',
+                                'id' => $current->getId(),
+                                'parent' => $role->getId(),
+                                'direction' => 'up',
+                            ))));
+                            else $buttons[] = $view->ctrlButton('link', array('value' => '<i class="icon-minus"></i>', 'url' => '#'));
+                            if (!$firstInDepth > 0) $buttons[] = $view->ctrlButton('link', array('value' => '<i class="icon-chevron-up"></i>', 'url' => $view->url('ctrl_auth/default/id/query', array(
+                                'controller' => 'role',
+                                'action' => 'move-parent',
+                                'id' => $current->getId(),
+                                'parent' => $role->getId(),
+                                'direction' => 'down',
+                            ))));
+                            else $buttons[] = $view->ctrlButton('link', array('value' => '<i class="icon-minus"></i>', 'url' => '#'));
+                            echo $view->buttonGroup($buttons);
+                        }
                     ?>
                 </td>
                 <td>
@@ -107,7 +122,7 @@ echo $this->buttonBar(array(
                 </td>
             </tr>
             <?php $firstInDepth = false; ?>
-            <?php $generateRows($role->getParents(), $nextDepth, $role->getRoleId()); ?>
+            <?php $generateRows($role->getParents(), $nextDepth, $role); ?>
 
         <?php endforeach;
     };

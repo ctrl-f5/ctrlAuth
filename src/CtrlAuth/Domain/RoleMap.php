@@ -39,7 +39,7 @@ class RoleMap extends \Ctrl\Domain\PersistableModel
     }
 
     /**
-     * @param Resource $parent
+     * @param Role $parent
      */
     public function setParent($parent)
     {
@@ -47,7 +47,7 @@ class RoleMap extends \Ctrl\Domain\PersistableModel
     }
 
     /**
-     * @return Resource
+     * @return Role
      */
     public function getParent()
     {
