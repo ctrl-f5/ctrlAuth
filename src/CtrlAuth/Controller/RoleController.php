@@ -98,6 +98,7 @@ class RoleController extends AbstractController
     {
         // add main edit tab and remove tab
         $this->getEventManager()->attach(self::EVENT_ROLE_EDIT_LOAD, array($this, 'onRoleEditLoadDefaultPage'), 100);
+        $this->getEventManager()->attach(self::EVENT_ROLE_EDIT_LOAD, array($this, 'onRoleEditLoadChildrenPage'), 99);
         $this->getEventManager()->attach(self::EVENT_ROLE_EDIT_LOAD, array($this, 'onRoleEditLoadRemovePage'), 0);
 
         // prepare the event to and trigger
@@ -212,6 +213,61 @@ class RoleController extends AbstractController
                 'role' => $role,
             ));
             $view->setTemplate('ctrl-auth/role/remove');
+            $event->setParam('result', $view);
+        }
+    }
+
+
+    public function onRoleEditLoadChildrenPage(\Zend\EventManager\Event $event)
+    {
+        $role = $event->getParam('role', array());
+        $pages = $event->getParam('pages', array());
+        $active = $event->getParam('active-slug', array());
+
+        // a settings tab
+        $slug = 'children';
+        $pages[] = array(
+            'slug' => $slug,
+            'label' => 'Children',
+            'url' => $this->url()->fromRoute('ctrl_auth/role_edit', array(
+                'role' => $role->getId(),
+                'slug' => $slug,
+            )),
+        );
+        $event->setParam('pages', $pages);
+
+        // if this page is currently active, set the page content ViewModel
+        if ($slug == $active) {
+            /** @var $roleService \CtrlAuth\Service\RoleService */
+            $roleService = $this->getDomainService('CtrlAuthRole');
+
+            if ($this->params()->fromQuery('remove-do') == 1) {
+                try {
+
+                    $roleService->remove($role);
+                    $roleService->flush($role);
+                    $event->setParam('result', $this->redirect()->toRoute('ctrl_auth/default', array(
+                        'controller' => 'role',
+                    )));
+
+                } catch (\Exception $ex) {
+
+                    $this->flashMessenger()->setNamespace('debug')->addMessage($ex->getMessage());
+                    $event->setParam('result', $this->redirect()->toRouteWithError('Failed to remove this entity', 'ctrl_auth/role_edit', array(
+                        'role' => $role->getId(),
+                        'slug' => 'remove',
+                    )));
+
+                }
+                $event->stopPropagation(true);
+                return true;
+            }
+
+            $view = new RoleEditView(array(
+                'role' => $role,
+                'possibleParents' => $roleService->getPossibleParentRoles($role),
+            ));
+            $view->setTemplate('ctrl-auth/role/children');
             $event->setParam('result', $view);
         }
     }

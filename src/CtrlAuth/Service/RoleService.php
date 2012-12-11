@@ -67,4 +67,25 @@ class RoleService extends \Ctrl\Service\AbstractDomainModelService
             return array();
         }
     }
+
+    public function getPossibleParentRoles(Role $role, $parentIds = array(), $recurse = false)
+    {
+        if (!count($parentIds)) $parentIds[] = $role->getId();
+
+        foreach ($role->getParents() as $parent) {
+            if (!in_array($parent->getId(), $parentIds)) {
+                $parentIds[] = $parent->getId();
+                $parentIds = $this->getPossibleParentRoles($parent, $parentIds, true);
+            }
+        }
+
+        if ($recurse) {
+            return $parentIds;
+        }
+
+        return $this->getEntityManager()
+            ->createQuery('SELECT e FROM '.$this->entity.' e WHERE e.id NOT IN(:id) ORDER BY e.name')
+            ->setParameter('id', $parentIds)
+            ->getResult();
+    }
 }

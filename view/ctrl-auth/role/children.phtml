@@ -1,0 +1,60 @@
+<?php
+/** @var $this \Ctrl\View\PhpView */
+echo $this->pageTitle('Role children');
+
+$possibleChildOptions = array();
+foreach ($possibleParents as $p) {
+    $possibleChildOptions[] = array(
+        'url' => $this->url('ctrl_auth/role_edit/query', array(
+            'role' => $role->getId(),
+            'slug' => 'remove',
+            'remove-do' => '1',
+        )),
+        'content' => $p->getName()
+    );
+}
+$treeUrl = $this->url('ctrl_auth/default/id', array(
+    'controller' => 'role',
+    'id' => $role->getId(),
+));
+if (!$possibleChildOptions) {
+    $possibleChildOptions[] = array('url' => $treeUrl, 'content' => 'No possible children');
+}
+echo $this->buttonGroup(array(
+        $this->ctrlButton('dropdown', array('value' => 'Add child', 'children' => $possibleChildOptions), 'primary'),
+        $this->ctrlButton('link', array('value' => 'Role tree', 'url' => $treeUrl)),
+    ),
+    array('pull-right' => 'true')
+);
+?>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>name</th>
+        <th>system role</th>
+        <th>actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php
+        foreach ($role->getParents() as $parent):
+    ?>
+        <tr>
+            <td><?php echo $parent->getName(); ?></td>
+            <td><?php if ($parent->isSystemRole()) : ?><span class="label label-info">yes</span><?php endif; ?></td>
+            <td>
+                <?php echo $this->ctrlButton('link', array(
+                'value' => 'Remove child',
+                'url' => $this->url('ctrl_auth/role_edit/query', array(
+                    'role' => $role->getId(),
+                    'slug' => 'children',
+                    'remove-do' => '1',
+                    'child' => $parent->getId(),
+                ))
+            ), 'warning'); ?>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
