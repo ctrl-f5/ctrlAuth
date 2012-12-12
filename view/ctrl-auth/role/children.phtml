@@ -13,9 +13,8 @@ foreach ($possibleParents as $p) {
         'content' => $p->getName()
     );
 }
-$treeUrl = $this->url('ctrl_auth/default/id', array(
+$treeUrl = $this->url('ctrl_auth/default', array(
     'controller' => 'role',
-    'id' => $role->getId(),
 ));
 if (!$possibleChildOptions) {
     $possibleChildOptions[] = array('url' => $treeUrl, 'content' => 'No possible children');

@@ -93,7 +93,7 @@ class Module
                                     'role'   => '[0-9]+',
                                 ),
                                 'defaults' => array(
-                                    'controller'   => 'Permission',
+                                    'controller'   => 'permission',
                                     'action' => 'change-permission',
                                 ),
                             ),

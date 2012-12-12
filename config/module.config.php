@@ -106,6 +106,15 @@ return array(
                             'action' => 'edit-tabs',
                         ),
                     ),
+                    array(
+                        'label' => 'role permissions',
+                        'route' => 'ctrl_auth/default/id',
+                        'type' => 'Ctrl\Navigation\Page\Mvc',
+                        'resource' => 'routes.CtrlAuth\Controller\Permission',
+                        'params' => array(
+                            'controller' => 'permission',
+                        ),
+                    ),
                 )
             ),
         )
