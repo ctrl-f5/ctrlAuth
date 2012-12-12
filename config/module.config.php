@@ -88,12 +88,22 @@ return array(
                 ),
                 'pages' => array(
                     array(
-                        'label' => 'permissions',
+                        'label' => 'role tree',
                         'route' => 'ctrl_auth/default/id',
                         'type' => 'Ctrl\Navigation\Page\Mvc',
-                        'resource' => 'routes.CtrlAuth\Controller\Permission',
+                        'resource' => 'routes.CtrlAuth\Controller\Role',
                         'params' => array(
-                            'controller' => 'permission'
+                            'controller' => 'role'
+                        ),
+                    ),
+                    array(
+                        'label' => 'edit role',
+                        'route' => 'ctrl_auth/role_edit',
+                        'type' => 'Ctrl\Navigation\Page\Mvc',
+                        'resource' => 'routes.CtrlAuth\Controller\Role',
+                        'params' => array(
+                            'controller' => 'role',
+                            'action' => 'edit-tabs',
                         ),
                     ),
                 )
