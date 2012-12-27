@@ -33,7 +33,7 @@ class Module
         return array(
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
-                    __NAMESPACE__ => __DIR__.'/src/Auth/',
+                    __NAMESPACE__ => __DIR__.'/../',
                 ),
             ),
         );
