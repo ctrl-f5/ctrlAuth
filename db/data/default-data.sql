@@ -21,13 +21,18 @@ INSERT INTO `ctrl_auth_user_role` (`role_id`, `user_id`) VALUES
 INSERT INTO  `ctrl_auth_resource` (`id`, `resource`)VALUES
 (1 , 'global'),
 (2 , 'routes'),
-(3 , 'routes.CtrlAuth\\Controller.Login'),
-(4 , 'actions.CtrlAuth.User.remove');
+(3 , 'routes.CtrlAuth\\Controller.Index'),
+(4 , 'routes.CtrlAuth\\Controller.Login'),
+(5 , 'actions.CtrlAuth.User.remove'),
+(6 , 'menu')
+;
 
 INSERT INTO  `ctrl_auth_permission` (`id` , `role_id` , `resource_id` , `isAllowed`) VALUES
+(NULL, '2',  '6',  '1'),
 (NULL, '3',  '3',  '1'),
+(NULL, '3',  '4',  '1'),
 (NULL, '2',  '1',  '1'),
 (NULL, '2',  '2',  '1'),
-(NULL, '5',  '4',  '1');
+(NULL, '5',  '5',  '1');
 
 SET foreign_key_checks = 1;
