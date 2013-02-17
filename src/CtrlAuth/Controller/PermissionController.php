@@ -17,8 +17,8 @@ class PermissionController extends AbstractController
         /** @var $auth \Ctrl\Permissions\Acl */
         $auth = $this->getServiceLocator()->get('CtrlAuthAcl');
         $roleService = $this->getDomainService('CtrlAuthRole');
+        /** @var $role Role */
         $role = $roleService->getById($this->params()->fromRoute('id'));
-        //$userService = $this->getDomainService('CtrlAuthUser');
 
         return new ViewModel(array(
             'auth' => $auth,

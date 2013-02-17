@@ -7,15 +7,15 @@ class Resources extends \Ctrl\Permissions\Resources
     /**
      * Sets
      */
-    const SET_ACTIONS = 'actions.CtrlAuth';
+    const SET_ACTIONS   = 'actions.CtrlAuth';
 
     /**
      * Actions
      */
     const ACTION_USER_REMOVE = 'User.remove';
 
-    const RESOURCE_ROUTE_AUTH = 'routes.CtrlAuth\Controller';
-    const RESOURCE_ROUTE_LOGIN = 'routes.CtrlAuth\Controller.Login';
+    const RESOURCE_ROUTE_AUTH = 'routes.CtrlAuth';
+    const RESOURCE_ROUTE_LOGIN = 'routes.CtrlAuth.Login.index';
 
     public function getSets()
     {
@@ -34,11 +34,30 @@ class Resources extends \Ctrl\Permissions\Resources
             array(
                 self::SET_ROUTES => array(
                     'CtrlAuth\Controller' => array(
+                        'Index',
                         'Login',
+                        'User',
                     ),
                 ),
                 self::SET_ACTIONS => array(
                     self::ACTION_USER_REMOVE,
+                ),
+                self::SET_MENU => array(
+                    'CtrlAuth' => array(
+                        'Login' => array(
+                            'index'
+                        ),
+                        'User' => array(
+                            'index'
+                        ),
+                        'Role' => array(
+                            'index',
+                            'edit'
+                        ),
+                        'Permission' => array(
+                            'index'
+                        ),
+                    )
                 ),
             )
         );

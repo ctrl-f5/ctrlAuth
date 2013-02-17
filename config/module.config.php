@@ -56,13 +56,13 @@ return array(
                 'label' => 'account',
                 'route' => 'ctrl_auth/default',
                 'type' => 'Ctrl\Navigation\Page\Mvc',
-                'resource' => 'routes.CtrlAuth\Controller',
+                'resource' => 'menu.CtrlAuth',
             ),
             array(
                 'label' => 'users',
                 'route' => 'ctrl_auth/default',
                 'type' => 'Ctrl\Navigation\Page\Mvc',
-                'resource' => 'routes.CtrlAuth\Controller\User',
+                'resource' => 'menu.CtrlAuth.User',
                 'params' => array(
                     'controller' => 'user'
                 ),
@@ -71,7 +71,7 @@ return array(
                         'label' => 'login',
                         'route' => 'ctrl_auth/default',
                         'type' => 'Ctrl\Navigation\Page\Mvc',
-                        'resource' => 'routes.CtrlAuth\Controller\Login',
+                        'resource' => 'menu.CtrlAuth.Login.index',
                         'params' => array(
                             'controller' => 'login',
                         ),
@@ -82,7 +82,7 @@ return array(
                 'label' => 'roles',
                 'route' => 'ctrl_auth/default',
                 'type' => 'Ctrl\Navigation\Page\Mvc',
-                'resource' => 'routes.CtrlAuth\Controller\Role',
+                'resource' => 'routes.CtrlAuth.Role',
                 'params' => array(
                     'controller' => 'role'
                 ),
@@ -91,7 +91,7 @@ return array(
                         'label' => 'role tree',
                         'route' => 'ctrl_auth/default/id',
                         'type' => 'Ctrl\Navigation\Page\Mvc',
-                        'resource' => 'routes.CtrlAuth\Controller\Role',
+                        'resource' => 'menu.CtrlAuth.Role',
                         'params' => array(
                             'controller' => 'role'
                         ),
@@ -100,7 +100,7 @@ return array(
                         'label' => 'edit role',
                         'route' => 'ctrl_auth/role_edit',
                         'type' => 'Ctrl\Navigation\Page\Mvc',
-                        'resource' => 'routes.CtrlAuth\Controller\Role',
+                        'resource' => 'menu.CtrlAuth.Role.edit',
                         'params' => array(
                             'controller' => 'role',
                             'action' => 'edit-tabs',
@@ -110,7 +110,7 @@ return array(
                         'label' => 'role permissions',
                         'route' => 'ctrl_auth/default/id',
                         'type' => 'Ctrl\Navigation\Page\Mvc',
-                        'resource' => 'routes.CtrlAuth\Controller\Permission',
+                        'resource' => 'menu.CtrlAuth.Permission.byRole',
                         'params' => array(
                             'controller' => 'permission',
                         ),

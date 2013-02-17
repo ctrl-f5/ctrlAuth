@@ -60,6 +60,8 @@ class AclFactory extends BaseFactory
             foreach ($r->getPermissions() as $p) {
                 if ($p->isAllowed()) {
                     $acl->allow($r, $p->getResource()->getResourceId());
+                } else {
+                    $acl->deny($r, $p->getResource()->getResourceId());
                 }
             }
         }

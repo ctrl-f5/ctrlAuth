@@ -47,7 +47,6 @@ class DispatchListener implements
 
     public function preDispatch(\Zend\Mvc\MvcEvent $e)
     {
-        return;
         $routeParams = $e->getRouteMatch()->getParams();
 
         // build resource names
@@ -57,7 +56,8 @@ class DispatchListener implements
         ));
         $controllerResource = implode('.', array(
             \Ctrl\Permissions\Resources::SET_ROUTES,
-            $routeParams['controller'],
+            $routeParams['__NAMESPACE__'],
+            str_replace($routeParams['__NAMESPACE__'].'\\', '', $routeParams['controller']),
         ));
         $actionResource = implode('.', array(
             $controllerResource,
@@ -69,8 +69,10 @@ class DispatchListener implements
         $authService = $serviceManager->get('DomainServiceLoader')->get('CtrlAuthUser');
         /** @var $acl \Ctrl\Permissions\Acl */
         $acl = $serviceManager->get('CtrlAuthAcl');
+
         $user = $authService->getAuthenticatedUser();
         $resource = $actionResource;
+
         if (!$user->hasAccessTo($resource)) {
             $resource = $controllerResource;
             if (!$acl->hasResource($resource)) {
