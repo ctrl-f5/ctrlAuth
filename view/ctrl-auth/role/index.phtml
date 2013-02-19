@@ -47,14 +47,9 @@ echo $this->buttonBar(array(
     <?php
 
     $view = $this;
-    $getButtons = function ($role) use ($user, $view) {
+    /** @var $role \CtrlAuth\Domain\Role */
+    $getButtons = function ($role) use ($user, $view, $canEditRoles, $canEditSystemRoles) {
         $buttons = array();
-        $buttons[] = $view->ctrlButton('link', array(
-            'url' => $view->url('ctrl_auth/role_edit', array(
-                'role' => $role->getId(),
-            )),
-            'value' => 'edit',
-        ));
         $buttons[] = $view->ctrlButton('link', array(
             'url' => $view->url('ctrl_auth/default/id', array(
                 'controller' => 'permission',
@@ -74,6 +69,16 @@ echo $this->buttonBar(array(
                 'value' => 'unlink',
                 'confirm' => 'are you sure you want to unlink role?',
             ), 'warning');
+        }
+        if ($canEditRoles) {
+            if (!$role->isSystemRole() || $canEditSystemRoles) {
+                $buttons[] = $view->ctrlButton('link', array(
+                    'url' => $view->url('ctrl_auth/role_edit', array(
+                        'role' => $role->getId(),
+                    )),
+                    'value' => 'edit',
+                ));
+            }
         }
         return implode(PHP_EOL, $buttons);
     };

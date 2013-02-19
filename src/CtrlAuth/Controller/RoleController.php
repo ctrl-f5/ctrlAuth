@@ -13,8 +13,11 @@ class RoleController extends AbstractController
 
     public function indexAction()
     {
+        /** @var $userService \CtrlAuth\Service\UserService */
         $userService = $this->getDomainService('CtrlAuthUser');
+        $currentUser = $userService->getAuthenticatedUser();
         try {
+            /** @var $user \CtrlAuth\Domain\User */
             $user = $userService->getById($this->params()->fromRoute('id'));
         } catch (\Exception $e) {
             $user = null;
@@ -31,6 +34,8 @@ class RoleController extends AbstractController
         return new ViewModel(array(
             'roles' => $roles,
             'user' => $user,
+            'canEditRoles' => $currentUser->hasAccessTo('routes.CtrlAuth\Controller.Role.edit'),
+            'canEditSystemRoles' => $currentUser->hasAccessTo('actions.CtrlAuth.Role.editSystemRole'),
         ));
     }
 
@@ -61,6 +66,15 @@ class RoleController extends AbstractController
         return $this->redirect()->toRouteWithError('The request could not be completed', 'ctrl_auth/default', array('controller' => 'role'));
     }
 
+    /**
+     * Configures the default pages in the EventManager
+     * other components can add edit pages by hooking in the
+     * EVENT_ROLE_EDIT_LOAD and adding your page to the pages event param
+     *
+     * @param $role
+     * @param $activeSlug
+     * @return \Zend\EventManager\Event
+     */
     protected function loadRoleEditPages($role, $activeSlug)
     {
         // add main edit tab and remove tab
@@ -78,7 +92,7 @@ class RoleController extends AbstractController
 
         $pages = $event->getParam('pages', array());
 
-        // a settings tab
+        // add a button to go back to the index page
         $slug = 'back';
         $pages[] = array(
             'slug' => $slug,

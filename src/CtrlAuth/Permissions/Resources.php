@@ -13,6 +13,7 @@ class Resources extends \Ctrl\Permissions\Resources
      * Actions
      */
     const ACTION_USER_REMOVE = 'User.remove';
+    const ACTION_ROLE_EDIT_SYSTEM = 'Role.editSystemRole';
 
     const RESOURCE_ROUTE_AUTH = 'routes.CtrlAuth';
     const RESOURCE_ROUTE_LOGIN = 'routes.CtrlAuth.Login.index';
