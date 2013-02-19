@@ -34,39 +34,6 @@ class RoleController extends AbstractController
         ));
     }
 
-    public function editAction()
-    {
-        $roleService = $this->getDomainService('CtrlAuthRole');
-        $role = $roleService->getById($this->params()->fromRoute('id'));
-
-        $form = new \CtrlAuth\Form\Role\Edit();
-        $form->loadModel($role);
-
-        $form->setAttribute('action', $this->url()->fromRoute('ctrl_auth/default/id', array(
-            'controller' => 'role',
-            'action' => 'edit',
-            'id' => $role->getId()
-        )));
-        $form->setReturnUrl($this->url()->fromRoute('ctrl_auth/default', array(
-            'controller' => 'role',
-        )));
-
-        if ($this->getRequest()->isPost()) {
-            $form->setData($this->getRequest()->getPost());
-            if ($form->isValid()) {
-                $elems = $form->getElements();
-                $role->setName($elems[$form::ELEM_NAME]->getValue());
-                $roleService->persist($role);
-                return $this->redirect()->toUrl($form->getReturnurl());
-            }
-        }
-
-        return new RoleEditView(array(
-            'role' => $role,
-            'form' => $form,
-        ));
-    }
-
     public function editTabsAction()
     {
         $roleService = $this->getDomainService('CtrlAuthRole');
@@ -109,11 +76,25 @@ class RoleController extends AbstractController
         ));
         $this->getEventManager()->trigger($event);
 
+        $pages = $event->getParam('pages', array());
+
+        // a settings tab
+        $slug = 'back';
+        $pages[] = array(
+            'slug' => $slug,
+            'label' => 'back',
+            'url' => $this->url()->fromRoute('ctrl_auth/default', array(
+                'controller' => 'role',
+            )),
+        );
+        $event->setParam('pages', $pages);
+
         return $event;
     }
 
     public function onRoleEditLoadDefaultPage(\Zend\EventManager\Event $e)
     {
+        /** @var $role Role */
         $role = $e->getParam('role', array());
         $pages = $e->getParam('pages', array());
         $active = $e->getParam('active-slug', array());
@@ -150,6 +131,7 @@ class RoleController extends AbstractController
                     $roleService = $this->getDomainService('CtrlAuthRole');
                     $elems = $form->getElements();
                     $role->setName($elems[$form::ELEM_NAME]->getValue());
+                    $role->setIsSystemRole(null !== $elems[$form::ELEM_SYSTEM]->getValue());
                     $roleService->persist($role);
                     $e->setParam('result', $this->redirect()->toUrl($form->getReturnurl()));
                     $e->stopPropagation(true);
@@ -217,7 +199,6 @@ class RoleController extends AbstractController
         }
     }
 
-
     public function onRoleEditLoadChildrenPage(\Zend\EventManager\Event $event)
     {
         $role = $event->getParam('role', array());
@@ -228,7 +209,7 @@ class RoleController extends AbstractController
         $slug = 'children';
         $pages[] = array(
             'slug' => $slug,
-            'label' => 'Children',
+            'label' => 'children',
             'url' => $this->url()->fromRoute('ctrl_auth/role_edit', array(
                 'role' => $role->getId(),
                 'slug' => $slug,

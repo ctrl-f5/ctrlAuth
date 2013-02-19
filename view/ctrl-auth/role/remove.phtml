@@ -5,7 +5,7 @@ echo $this->ctrlFormActions(array(
         $this->ctrlButton('link', array(
             'value' => 'remove',
             'url' => $this->url('ctrl_auth/role_edit/query', array(
-                'role' => $parent->getId(),
+                'role' => $role->getId(),
                 'slug' => 'remove',
                 'remove-do' => '1',
             ))

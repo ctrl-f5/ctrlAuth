@@ -10,10 +10,12 @@ use Ctrl\Form\Element\Hidden as HiddenInput;
 use Ctrl\Form\Element\Text as TextInput;
 use Ctrl\Form\Element\Textarea as TextareaInput;
 use Ctrl\Form\Element\Select as SelectInput;
+use Ctrl\Form\Element\Checkbox as CheckboxInput;
 
 class Edit extends \Ctrl\Form\Form
 {
     const ELEM_NAME = 'name';
+    const ELEM_SYSTEM = 'system';
 
     public function __construct($name = null)
     {
@@ -21,6 +23,10 @@ class Edit extends \Ctrl\Form\Form
 
         $input = new TextInput(self::ELEM_NAME);
         $input->setLabel('name');
+        $this->add($input);
+
+        $input = new CheckboxInput(self::ELEM_SYSTEM);
+        $input->setLabel('system role');
         $this->add($input);
 
         $this->setInputFilter($this->getInputFilter());
